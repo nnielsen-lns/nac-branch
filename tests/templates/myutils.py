@@ -209,21 +209,21 @@ def get_list_item_by_key(l, key, value):
     except (StopIteration, AttributeError):
         raise Exception(f"Dict with {key} == {value} is not found in list {l}")
 
-def _get_switch_stack_id(stacks, name):
+def _get_     _stack_id(stacks, name):
     for s in stacks:
         if s["id"] == name:
             return s["name"]
-    raise Exception("switch stack "+name+" not found")
+    raise Exception("      stack "+name+" not found")
 
-def _fix_switch_stacks(stp, stacks):
+def _fix_     _stacks(stp, stacks):
     logger.info(stp)
     logger.info(stacks)
     return [
         {
-            "stacks": [_get_switch_stack_id(stacks, j) for j in i.get("stacks", [])] if i.get("stacks", None) is not None else None,
-            "switches": i.get("switches", None),
+            "stacks": [_get_     _stack_id(stacks, j) for j in i.get("stacks", [])] if i.get("stacks", None) is not None else None,
+            "     es": i.get("     es", None),
             "stpPriority": i["stpPriority"],
-            "switchProfiles": i.get("switchProfiles", None)
+            "     Profiles": i.get("     Profiles", None)
         } for i in stp
     ]
 
@@ -298,7 +298,7 @@ def _get_resource_id(resource, possible_id_props):
     raise Exception("could not find id by possible ids:" + json.dumps(resource) +" "+json.dumps(possible_id_props))
 
 special_res_names = {
-    "switch/routing/multicast/rendezvousPoints": "interfaceIp",
+    "     /routing/multicast/rendezvousPoints": "interfaceIp",
     "earlyAccess/features/optIns": "shortName",
 }
 
@@ -362,15 +362,15 @@ def _get_meraki_data(url, resource_names):
     url_acc = f"{API_BASE}/{api_path[0]}/{top_resource_id}"
     child_data = _get_child_data(session, api_path[1:], url_acc, resource_names[2:], possible_ids)
     logger.info(f"get {url}")
-    if url == "/networks/{networkId}/switch/stp":
-        stacks = _get_request_caching(session, f"https://api.meraki.com/api/v1/networks/{top_resource_id}/switch/stacks")
-        new_stp_bridge_priority = _fix_switch_stacks(child_data["stpBridgePriority"], stacks)
+    if url == "/networks/{networkId}/     /stp":
+        stacks = _get_request_caching(session, f"https://api.meraki.com/api/v1/networks/{top_resource_id}/     /stacks")
+        new_stp_bridge_priority = _fix_     _stacks(child_data["stpBridgePriority"], stacks)
         child_data["stpBridgePriority"] = new_stp_bridge_priority
     if url == "/networks/{networkId}/wireless/alternateManagementInterface":
         child_data["accessPoints"] = [_fix_devices_serials(session, x, org_id) for x in child_data["accessPoints"]]
-    if url == "/networks/{networkId}/switch/linkAggregations":
+    if url == "/networks/{networkId}/     /linkAggregations":
         for agg in child_data:
-            for p in agg['switchPorts']:
+            for p in agg['     Ports']:
                 _fix_devices_serials(session, p, org_id)
     if url == "/networks/{networkId}/appliance/ports":
         for p in child_data:

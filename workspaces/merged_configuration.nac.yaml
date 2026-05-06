@@ -1,0 +1,1249 @@
+"meraki":
+  "domains":
+  - "administrator":
+      "name": "admin"
+    "name": "707628091450589645"
+    "organizations":
+    - "appliance":
+        "vpn_firewall_rules":
+          "rules":
+          - "comment": "Allow HTTPS"
+            "destination_cidr": "10.0.0.0/24"
+            "destination_port": "443"
+            "policy": "allow"
+            "protocol": "tcp"
+            "source_cidr": "192.168.1.0/24"
+            "source_port": "Any"
+            "syslog": true
+          - "comment": "Deny all UDP"
+            "destination_cidr": "Any"
+            "destination_port": "Any"
+            "policy": "deny"
+            "protocol": "udp"
+            "source_cidr": "Any"
+            "source_port": "Any"
+            "syslog": false
+          - "comment": "Deny all TCP"
+            "destination_cidr": "Any"
+            "destination_port": "Any"
+            "policy": "deny"
+            "protocol": "tcp"
+            "source_cidr": "Any"
+            "source_port": "Any"
+            "syslog": false
+          "syslog_default_rule": true
+      "login_security":
+        "account_lockout_attempts": 5
+        "api_authentication":
+          "enabled": false
+          "ranges": []
+        "enforce_account_lockout": true
+        "enforce_different_passwords": true
+        "enforce_idle_timeout": true
+        "enforce_login_ip_ranges": false
+        "enforce_password_expiration": false
+        "enforce_strong_passwords": true
+        "enforce_two_factor_auth": false
+        "idle_timeout_minutes": 90
+        "login_ip_ranges": []
+        "num_different_passwords": 3
+        "password_expiration_days": 40
+      "managed": false
+      "name": "WWT - Meraki Pod 6"
+      "networks":
+      - "adaptive_policy_settings":
+          "enabled": true
+        "appliance":
+          "content_filtering":
+            "allowed_url_patterns":
+            - "www.cisco.com"
+            - "*.meraki.com"
+            "blocked_url_categories":
+            - "meraki:contentFiltering/category/C6"
+            - "meraki:contentFiltering/category/C69"
+            - "meraki:contentFiltering/category/C55"
+            - "meraki:contentFiltering/category/C47"
+            - "meraki:contentFiltering/category/C84"
+            - "meraki:contentFiltering/category/C22"
+            - "meraki:contentFiltering/category/T01"
+            - "meraki:contentFiltering/category/T03"
+            - "meraki:contentFiltering/category/T14"
+            - "meraki:contentFiltering/category/T05"
+            - "meraki:contentFiltering/category/T02"
+            - "meraki:contentFiltering/category/C36"
+            "blocked_url_patterns":
+            - "www.porn.com"
+            - "www.socialmedia.net"
+            - "www.example.badsitehere.com"
+            "url_category_list_size": "fullList"
+          "firewall":
+            "firewalled_services":
+            - "access": "blocked"
+              "service_name": "ICMP"
+            - "access": "restricted"
+              "allowed_ips":
+              - "2.2.2.2"
+              - "3.3.3.3"
+              "service_name": "web"
+            - "access": "unrestricted"
+              "service_name": "SNMP"
+            "l3_firewall_rules":
+              "rules":
+              - "comment": "Block Bad Traffic"
+                "destination_cidr": "Any"
+                "destination_port": 1433
+                "policy": "deny"
+                "protocol": "udp"
+                "source_cidr": "Any"
+                "source_port": 1433
+              - "comment": "Block SSH"
+                "destination_cidr": "Any"
+                "destination_port": 22
+                "policy": "deny"
+                "protocol": "tcp"
+                "source_cidr": "Any"
+                "source_port": 22
+            "l7_firewall_rules":
+            - "policy": "deny"
+              "type": "applicationCategory"
+              "value": "meraki:layer7/category/27"
+            - "policy": "deny"
+              "type": "application"
+              "value": "meraki:layer7/application/106"
+            - "policy": "deny"
+              "type": "host"
+              "value": "abc.com"
+            - "policy": "deny"
+              "type": "port"
+              "value": "161"
+            - "policy": "deny"
+              "type": "ipRange"
+              "value": "192.168.0.1"
+            - "policy": "deny"
+              "type": "ipRange"
+              "value": "192.168.0.2:80"
+          "ports":
+          - "allowed_vlans": "1,10,20,30,50,999"
+            "enabled": true
+            "port_id_ranges":
+            - "from": 5
+              "to": 6
+            - "from": 13
+              "to": 14
+            "type": "trunk"
+            "vlan": 1
+          - "enabled": true
+            "port_id_ranges":
+            - "from": 12
+              "to": 12
+            "type": "access"
+            "vlan": 17
+          "sdwan_internet_policies":
+          - "fail_over_criterion": "poorPerformance"
+            "name": "policy 1"
+            "performance_class":
+              "builtin_performance_class_name": "VoIP"
+              "type": "builtin"
+            "preferred_uplink": "wan1"
+            "traffic_filters":
+            - "type": "custom"
+              "value":
+                "destination":
+                  "cidr": "any"
+                  "port": "any"
+                "protocol": "tcp"
+                "source":
+                  "cidr": "10.12.10.0/24"
+                  "port": "any"
+          - "fail_over_criterion": "poorPerformance"
+            "name": "policy 2"
+            "performance_class":
+              "builtin_performance_class_name": "VoIP"
+              "type": "builtin"
+            "preferred_uplink": "wan1"
+            "traffic_filters":
+            - "type": "custom"
+              "value":
+                "destination":
+                  "cidr": "any"
+                  "port": "any"
+                "protocol": "tcp"
+                "source":
+                  "cidr": "10.12.20.0/24"
+                  "port": "any"
+          - "fail_over_criterion": "poorPerformance"
+            "name": "policy 3"
+            "performance_class":
+              "custom_performance_class_name": "Radius"
+              "type": "custom"
+            "preferred_uplink": "wan1"
+            "traffic_filters":
+            - "type": "majorApplication"
+              "value":
+                "destination":
+                  "applications":
+                  - "id": "meraki:layer7/application/1"
+                    "name": "Office 365 Suite"
+                    "type": "major"
+                "protocol": "udp"
+                "source":
+                  "cidr": "any"
+                  "port": "any"
+          - "fail_over_criterion": "poorPerformance"
+            "name": "policy 4"
+            "performance_class":
+              "builtin_performance_class_name": "VoIP"
+              "type": "builtin"
+            "preferred_uplink": "wan1"
+            "traffic_filters":
+            - "type": "application"
+              "value":
+                "destination":
+                  "applications":
+                  - "id": "meraki:layer7/application/7"
+                    "name": "Rackspace Hosted Exchange"
+                    "type": "nbar"
+                  - "id": "meraki:layer7/application/39"
+                    "name": "Hotmail"
+                    "type": "nbar"
+                "protocol": "any"
+                "source":
+                  "cidr": "10.12.10.0/24"
+          "security_intrusion":
+            "ids_rulesets": "balanced"
+            "mode": "prevention"
+          "settings":
+            "client_tracking_method": "MAC address"
+            "deployment_mode": "routed"
+            "dynamic_dns":
+              "enabled": true
+              "prefix": "my-network"
+          "static_routes":
+          - "gateway_ip": "10.1.7.1"
+            "name": "Static Route 01"
+            "subnet": "10.10.10.0/24"
+          - "gateway_ip": "10.1.7.1"
+            "name": "Static Route 02"
+            "subnet": "10.0.20.0/24"
+          "traffic_shaping":
+            "custom_performance_classes":
+            - "max_jitter": 30
+              "max_latency": 30
+              "max_loss_percentage": 5
+              "name": "Radius"
+            "global_bandwidth_limits":
+              "limit_down": 0
+              "limit_up": 0
+            "rules":
+              "default_rules": false
+              "rules":
+              - "definitions":
+                - "type": "applicationCategory"
+                  "value": "meraki:layer7/category/24"
+                - "type": "application"
+                  "value": "meraki:layer7/application/332"
+                "dscp_tag_value": 10
+                "name": "Rule 01"
+                "per_client_bandwidth_limits":
+                  "bandwidth_limits":
+                    "limit_down": 1000
+                    "limit_up": 1000
+                  "settings": "custom"
+                "priority": "high"
+              - "definitions":
+                - "type": "application"
+                  "value": "meraki:layer7/application/332"
+                "dscp_tag_value": 18
+                "name": "Rule 02"
+                "per_client_bandwidth_limits":
+                  "settings": "ignore"
+                "priority": "high"
+            "uplink_bandwidth_limits":
+              "cellular":
+                "limit_down": 0
+                "limit_up": 0
+              "wan1":
+                "limit_down": 400000
+                "limit_up": 400000
+              "wan2":
+                "limit_down": 500000
+                "limit_up": 500000
+            "uplink_selection":
+              "active_active_auto_vpn": true
+              "default_uplink": "wan1"
+              "failover_and_failback_immediate": true
+              "load_balancing": true
+              "vpn_traffic_uplink_preferences":
+              - "fail_over_criterion": "poorPerformance"
+                "name": "policy 1"
+                "performance_class":
+                  "builtin_performance_class_name": "VoIP"
+                  "type": "builtin"
+                "preferred_uplink": "wan1"
+                "traffic_filters":
+                - "type": "application"
+                  "value":
+                    "id": "meraki:layer7/application/375"
+                - "type": "custom"
+                  "value":
+                    "destination":
+                      "cidr": "any"
+                      "port": "any"
+                    "protocol": "any"
+                    "source":
+                      "cidr": "any"
+                      "port": "any"
+              - "fail_over_criterion": "poorPerformance"
+                "name": "policy 2"
+                "performance_class":
+                  "builtin_performance_class_name": "VoIP"
+                  "type": "builtin"
+                "preferred_uplink": "wan1"
+                "traffic_filters":
+                - "type": "application"
+                  "value":
+                    "id": "meraki:layer7/application/4"
+                - "type": "custom"
+                  "value":
+                    "destination":
+                      "cidr": "any"
+                      "port": "any"
+                    "protocol": "any"
+                    "source":
+                      "cidr": "any"
+                      "port": "any"
+          "vlans":
+          - "appliance_ip": "10.12.10.1"
+            "dhcp_handling": "Relay DHCP to another server"
+            "dhcp_relay_server_ips":
+            - "10.0.20.11"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": false
+            "name": "Data"
+            "subnet": "10.12.10.0/24"
+            "vlan_id": 10
+          - "appliance_ip": "10.1.7.10"
+            "dhcp_handling": "Do not respond to DHCP requests"
+            "ipv6":
+              "enabled": false
+            "name": "shared_services"
+            "subnet": "10.1.7.0/24"
+            "vlan_id": 17
+          - "appliance_ip": "10.12.20.1"
+            "dhcp_handling": "Run a DHCP server"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": false
+            "name": "Voice"
+            "subnet": "10.12.20.0/24"
+            "vlan_id": 20
+          - "appliance_ip": "10.12.30.1"
+            "dhcp_handling": "Run a DHCP server"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": false
+            "name": "Iot"
+            "subnet": "10.12.30.0/24"
+            "vlan_id": 30
+          - "appliance_ip": "10.12.50.1"
+            "dhcp_boot_options": false
+            "dhcp_handling": "Run a DHCP server"
+            "dhcp_lease_time": "1 day"
+            "dns_nameservers": "opendns"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": true
+            "name": "Guest"
+            "subnet": "10.12.50.0/24"
+            "vlan_id": 50
+          - "appliance_ip": "10.12.255.1"
+            "dhcp_handling": "Relay DHCP to another server"
+            "dhcp_relay_server_ips":
+            - "10.0.20.11"
+            "dns_nameservers": "opendns"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": false
+            "name": "Infra"
+            "subnet": "10.12.255.0/24"
+            "vlan_id": 999
+          "vpn_site_to_site_vpn":
+            "hubs":
+            - "hub_network_name": "wwt-eft-hub"
+              "use_default_route": true
+            "mode": "spoke"
+            "subnets":
+            - "local_subnet": "10.12.10.0/24"
+              "use_vpn": true
+            - "local_subnet": "10.12.20.0/24"
+              "use_vpn": true
+            - "local_subnet": "10.12.30.0/24"
+              "use_vpn": true
+            - "local_subnet": "10.12.50.0/24"
+              "use_vpn": false
+            - "local_subnet": "10.12.255.0/24"
+              "use_vpn": false
+        "devices":
+        - "address": "Huntsville, UT"
+          "appliance":
+            "uplinks_settings":
+              "wan1":
+                "enabled": true
+                "svis":
+                  "ipv4":
+                    "assignment_mode": "dynamic"
+                  "ipv6":
+                    "assignment_mode": "dynamic"
+                "vlan_tagging":
+                  "enabled": false
+              "wan2":
+                "enabled": true
+                "svis":
+                  "ipv4":
+                    "assignment_mode": "dynamic"
+                  "ipv6":
+                    "assignment_mode": "dynamic"
+                "vlan_tagging":
+                  "enabled": false
+          "lat": 41.237582165
+          "lng": -111.83567583209445
+          "name": "wwt-eft-br2-r1"
+          "notes": "Small Branch Notes Appliance"
+          "serial": "Q2YN-QR99-3Q9J"
+          "tags":
+          - "mx85"
+        - "address": "Huntsville, UT"
+          "lat": 41.237582165
+          "lng": -111.83567583209445
+          "name": "wwt-eft-br2-ap1"
+          "notes": "Small Branch Notes Access Point"
+          "serial": "Q5BK-TDA4-MS7Z"
+          "tags":
+          - "CW9176I"
+        - "address": "Huntsville, UT"
+          "lat": 41.237582165
+          "lng": -111.83567583209445
+          "name": "wwt-eft-br2-ap2"
+          "notes": "Small Branch Notes Appliance"
+          "serial": "Q5BK-ZYZT-6B7Q"
+          "tags":
+          - "CW9176I"
+        "group_policies":
+        - "name": "Employees"
+          "vlan_tagging":
+            "vlan_id": 10
+        - "name": "Voice"
+          "vlan_tagging":
+            "vlan_id": 20
+        - "name": "Iot"
+          "vlan_tagging":
+            "vlan_id": 30
+        "name": "wwt-eft-br2-nate"
+        "notes": "This is a small branch network created via Netascode."
+        "product_types":
+        - "appliance"
+        - null
+        - "wireless"
+        - "cellularGateway"
+        "settings":
+          "local_status_page_authentication":
+            "password": "TSA@dm1n!!TSA@dm1n!!"
+            "username": "nnielsen"
+          "local_status_page_enabled": true
+          "named_vlans": true
+          "remote_status_page": true
+          "secure_port": false
+        "snmp":
+          "access": "users"
+          "users":
+          - "passphrase": "CHANGE_ME_SNMP"
+            "username": "snmpUser"
+        "syslog_servers":
+        - "host": "10.0.20.18"
+          "port": 514
+          "roles":
+          - "Switch event log"
+          - "Air Marshal events"
+          - "Flows"
+          - "URLs"
+          - "Wireless event log"
+          - "Appliance event log"
+        "tags":
+        - "small_branch"
+        "templates":
+        - "nw_setup"
+        - "nw_management"
+        - "app_ports"
+        - "small_branch_inventory"
+        - "wan_dhcp_dhcp"
+        - "wireless"
+        - "app_spoke"
+        - "app_settings"
+        - "app_vlans"
+        - "app_fw"
+        - "app_ts"
+        - "app_content"
+        - "app_static_routes"
+        - "app_intrusion"
+        - "internet_policies"
+        - "group_policies"
+        "time_zone": "America/Denver"
+        "variables":
+          "address": "Huntsville, UT"
+          "ap_01_name": "wwt-eft-br2-ap1"
+          "ap_01_serial": "Q5BK-TDA4-MS7Z"
+          "ap_02_name": "wwt-eft-br2-ap2"
+          "ap_02_serial": "Q5BK-ZYZT-6B7Q"
+          "appliance_01_name": "wwt-eft-br2-r1"
+          "appliance_01_serial": "Q2YN-QR99-3Q9J"
+          "corp_dhcp_server1": "10.0.20.11"
+          "data_ssid_schedules_enabled": true
+          "data_vlan_group_policy": "Employees"
+          "data_wireless_ssid_name": "eft-Data"
+          "guest_ssid_schedules_enabled": true
+          "guest_ssid_welcome_message": "Unauthorized access is prohibited."
+          "guest_wireless_client_bw_down": 0
+          "guest_wireless_client_bw_up": 0
+          "guest_wireless_ssid_bw_down": 0
+          "guest_wireless_ssid_bw_up": 0
+          "guest_wireless_ssid_name": "eft-Guest"
+          "hub_network_name": "wwt-eft-hub"
+          "iot_vlan_group_policy": "Iot"
+          "lat": 41.237582165
+          "lng": -111.83567583209445
+          "network_notes": "This is a small branch network created via Netascode."
+          "radius_accounting_server1_host": "10.0.20.5"
+          "radius_accounting_server1_port": 1813
+          "radius_server1_host": "10.0.20.5"
+          "radius_server1_port": 1812
+          "splash_reply_to_email_address": "example@example.com"
+          "static_route1_enabled": true
+          "static_route1_gw": "10.1.7.1"
+          "static_route1_subnet": "10.10.10.0/24"
+          "static_route2_enabled": true
+          "static_route2_gw": "10.1.7.1"
+          "static_route2_subnet": "10.0.20.0/24"
+          "switch_mtu_size": 8900
+          "syslog_port": 514
+          "syslog_server": "10.0.20.18"
+          "time_zone": "America/Denver"
+          "vlan10_appliance_ip": "10.12.10.1"
+          "vlan10_subnet": "10.12.10.0/24"
+          "vlan17_appliance_ip": "10.1.7.10"
+          "vlan17_subnet": "10.1.7.0/24"
+          "vlan20_appliance_ip": "10.12.20.1"
+          "vlan20_subnet": "10.12.20.0/24"
+          "vlan30_appliance_ip": "10.12.30.1"
+          "vlan30_subnet": "10.12.30.0/24"
+          "vlan50_appliance_ip": "10.12.50.1"
+          "vlan50_subnet": "10.12.50.0/24"
+          "vlan999_appliance_ip": "10.12.255.1"
+          "vlan999_subnet": "10.12.255.0/24"
+          "voice_vlan_group_policy": "Voice"
+          "wan1_enabled": true
+          "wan1_limit_down": 400000
+          "wan1_limit_up": 400000
+          "wan2_enabled": true
+          "wan2_limit_down": 500000
+          "wan2_limit_up": 500000
+          "wan_limit_down": 0
+          "wan_limit_up": 0
+        "wireless":
+          "rf_profiles":
+          - "band_selection_type": "ssid"
+            "is_indoor_default": true
+            "min_bitrate_type": "band"
+            "name": "Corp wireless rf profile"
+            "per_ssid_settings":
+            - "band_operation_mode": "dual"
+              "band_steering": true
+              "bands":
+              - "2.4"
+              - "5"
+              "ssid_name": "eft-Guest"
+            - "band_operation_mode": "dual"
+              "band_steering": true
+              "bands":
+              - "2.4"
+              - "5"
+              - "6"
+              "ssid_name": "eft-Data"
+            "transmission": true
+          "settings":
+            "meshing": false
+            "upgrade_strategy": "minimizeUpgradeTime"
+          "ssids":
+          - "auth_mode": "8021x-radius"
+            "available_on_all_aps": true
+            "band_selection": "Dual band operation with Band Steering"
+            "default_vlan_id": 10
+            "dot11r":
+              "enabled": true
+            "dot11w":
+              "enabled": true
+              "required": false
+            "enabled": true
+            "encryption_mode": "wpa-eap"
+            "firewall_l3_firewall_rules":
+              "allow_lan_access": true
+            "ip_assignment_mode": "Bridge mode"
+            "lan_isolation": false
+            "name": "eft-Data"
+            "radius":
+              "accounting": true
+              "accounting_servers":
+              - "host": "10.0.20.5"
+                "port": 1813
+                "secret": "TSA@dm1n!!"
+              "attribute_for_group_policies": "Filter-Id"
+              "coa": false
+              "override": true
+              "servers":
+              - "host": "10.0.20.5"
+                "port": 1812
+                "secret": "TSA@dm1n!!"
+              "testing": true
+            "ssid_number": "0"
+            "traffic_shaping_rules":
+              "default_rules": true
+              "traffic_shaping": true
+            "unavailability_schedules":
+              "enabled": true
+              "ranges":
+              - "end_day": "Sunday"
+                "end_time": "06:00:00"
+                "start_day": "Sunday"
+                "start_time": "00:00:00"
+              - "end_day": "Saturday"
+                "end_time": "06:00:00"
+                "start_day": "Saturday"
+                "start_time": "00:00:00"
+            "use_vlan_tagging": true
+            "visible": true
+            "wpa_encryption_mode": "WPA3 Transition Mode"
+          - "auth_mode": "open"
+            "available_on_all_aps": true
+            "band_selection": "Dual band operation"
+            "default_vlan_id": 50
+            "enabled": false
+            "firewall_l3_firewall_rules":
+              "allow_lan_access": false
+            "ip_assignment_mode": "Bridge mode"
+            "lan_isolation": true
+            "mandatory_dhcp": true
+            "name": "eft-Guest"
+            "per_client_bandwidth_limit_down": 0
+            "per_client_bandwidth_limit_up": 0
+            "per_ssid_bandwidth_limit_down": 0
+            "per_ssid_bandwidth_limit_up": 0
+            "splash_page": "Click-through splash page"
+            "splash_settings":
+              "welcome_message": "Unauthorized access is prohibited."
+            "ssid_number": "1"
+            "traffic_shaping_rules":
+              "default_rules": true
+              "traffic_shaping": true
+            "unavailability_schedules":
+              "enabled": true
+              "ranges":
+              - "end_day": "Sunday"
+                "end_time": "06:00:00"
+                "start_day": "Sunday"
+                "start_time": "00:00:00"
+              - "end_day": "Saturday"
+                "end_time": "06:00:00"
+                "start_day": "Saturday"
+                "start_time": "00:00:00"
+            "use_vlan_tagging": true
+            "visible": true
+      - "adaptive_policy_settings":
+          "enabled": true
+        "appliance":
+          "content_filtering":
+            "allowed_url_patterns":
+            - "www.cisco.com"
+            - "*.meraki.com"
+            "blocked_url_categories":
+            - "meraki:contentFiltering/category/C6"
+            - "meraki:contentFiltering/category/C69"
+            - "meraki:contentFiltering/category/C55"
+            - "meraki:contentFiltering/category/C47"
+            - "meraki:contentFiltering/category/C84"
+            - "meraki:contentFiltering/category/C22"
+            - "meraki:contentFiltering/category/T01"
+            - "meraki:contentFiltering/category/T03"
+            - "meraki:contentFiltering/category/T14"
+            - "meraki:contentFiltering/category/T05"
+            - "meraki:contentFiltering/category/T02"
+            - "meraki:contentFiltering/category/C36"
+            "blocked_url_patterns":
+            - "www.porn.com"
+            - "www.socialmedia.net"
+            - "www.example.badsitehere.com"
+            "url_category_list_size": "fullList"
+          "firewall":
+            "firewalled_services":
+            - "access": "blocked"
+              "service_name": "ICMP"
+            - "access": "restricted"
+              "allowed_ips":
+              - "2.2.2.2"
+              - "3.3.3.3"
+              "service_name": "web"
+            - "access": "unrestricted"
+              "service_name": "SNMP"
+            "l3_firewall_rules":
+              "rules":
+              - "comment": "Block Bad Traffic"
+                "destination_cidr": "Any"
+                "destination_port": 1433
+                "policy": "deny"
+                "protocol": "udp"
+                "source_cidr": "Any"
+                "source_port": 1433
+              - "comment": "Block SSH"
+                "destination_cidr": "Any"
+                "destination_port": 22
+                "policy": "deny"
+                "protocol": "tcp"
+                "source_cidr": "Any"
+                "source_port": 22
+            "l7_firewall_rules":
+            - "policy": "deny"
+              "type": "applicationCategory"
+              "value": "meraki:layer7/category/27"
+            - "policy": "deny"
+              "type": "application"
+              "value": "meraki:layer7/application/106"
+            - "policy": "deny"
+              "type": "host"
+              "value": "abc.com"
+            - "policy": "deny"
+              "type": "port"
+              "value": "161"
+            - "policy": "deny"
+              "type": "ipRange"
+              "value": "192.168.0.1"
+            - "policy": "deny"
+              "type": "ipRange"
+              "value": "192.168.0.2:80"
+          "ports":
+          - "allowed_vlans": "1,10,20,30,50,999"
+            "enabled": true
+            "port_id_ranges":
+            - "from": 5
+              "to": 6
+            - "from": 13
+              "to": 14
+            "type": "trunk"
+            "vlan": 1
+          - "enabled": true
+            "port_id_ranges":
+            - "from": 12
+              "to": 12
+            "type": "access"
+            "vlan": 17
+          "sdwan_internet_policies":
+          - "fail_over_criterion": "poorPerformance"
+            "name": "policy 1"
+            "performance_class":
+              "builtin_performance_class_name": "VoIP"
+              "type": "builtin"
+            "preferred_uplink": "wan1"
+            "traffic_filters":
+            - "type": "custom"
+              "value":
+                "destination":
+                  "cidr": "any"
+                  "port": "any"
+                "protocol": "tcp"
+                "source":
+                  "cidr": "10.10.10.0/24"
+                  "port": "any"
+          - "fail_over_criterion": "poorPerformance"
+            "name": "policy 2"
+            "performance_class":
+              "builtin_performance_class_name": "VoIP"
+              "type": "builtin"
+            "preferred_uplink": "wan1"
+            "traffic_filters":
+            - "type": "custom"
+              "value":
+                "destination":
+                  "cidr": "any"
+                  "port": "any"
+                "protocol": "tcp"
+                "source":
+                  "cidr": "10.10.20.0/24"
+                  "port": "any"
+          - "fail_over_criterion": "poorPerformance"
+            "name": "policy 3"
+            "performance_class":
+              "custom_performance_class_name": "Radius"
+              "type": "custom"
+            "preferred_uplink": "wan1"
+            "traffic_filters":
+            - "type": "majorApplication"
+              "value":
+                "destination":
+                  "applications":
+                  - "id": "meraki:layer7/application/1"
+                    "name": "Office 365 Suite"
+                    "type": "major"
+                "protocol": "udp"
+                "source":
+                  "cidr": "any"
+                  "port": "any"
+          - "fail_over_criterion": "poorPerformance"
+            "name": "policy 4"
+            "performance_class":
+              "builtin_performance_class_name": "VoIP"
+              "type": "builtin"
+            "preferred_uplink": "wan1"
+            "traffic_filters":
+            - "type": "application"
+              "value":
+                "destination":
+                  "applications":
+                  - "id": "meraki:layer7/application/7"
+                    "name": "Rackspace Hosted Exchange"
+                    "type": "nbar"
+                  - "id": "meraki:layer7/application/39"
+                    "name": "Hotmail"
+                    "type": "nbar"
+                "protocol": "any"
+                "source":
+                  "cidr": "10.10.10.0/24"
+          "security_intrusion":
+            "ids_rulesets": "balanced"
+            "mode": "prevention"
+          "settings":
+            "client_tracking_method": "MAC address"
+            "deployment_mode": "routed"
+            "dynamic_dns":
+              "enabled": true
+              "prefix": "my-network"
+          "traffic_shaping":
+            "custom_performance_classes":
+            - "max_jitter": 30
+              "max_latency": 30
+              "max_loss_percentage": 5
+              "name": "Radius"
+            "global_bandwidth_limits":
+              "limit_down": 0
+              "limit_up": 0
+            "rules":
+              "default_rules": false
+              "rules":
+              - "definitions":
+                - "type": "applicationCategory"
+                  "value": "meraki:layer7/category/24"
+                - "type": "application"
+                  "value": "meraki:layer7/application/332"
+                "dscp_tag_value": 10
+                "name": "Rule 01"
+                "per_client_bandwidth_limits":
+                  "bandwidth_limits":
+                    "limit_down": 1000
+                    "limit_up": 1000
+                  "settings": "custom"
+                "priority": "high"
+              - "definitions":
+                - "type": "application"
+                  "value": "meraki:layer7/application/332"
+                "dscp_tag_value": 18
+                "name": "Rule 02"
+                "per_client_bandwidth_limits":
+                  "settings": "ignore"
+                "priority": "high"
+            "uplink_bandwidth_limits":
+              "cellular":
+                "limit_down": 0
+                "limit_up": 0
+              "wan1":
+                "limit_down": 400000
+                "limit_up": 400000
+              "wan2":
+                "limit_down": 500000
+                "limit_up": 500000
+            "uplink_selection":
+              "active_active_auto_vpn": true
+              "default_uplink": "wan1"
+              "failover_and_failback_immediate": true
+              "load_balancing": true
+              "vpn_traffic_uplink_preferences":
+              - "fail_over_criterion": "poorPerformance"
+                "name": "policy 1"
+                "performance_class":
+                  "builtin_performance_class_name": "VoIP"
+                  "type": "builtin"
+                "preferred_uplink": "wan1"
+                "traffic_filters":
+                - "type": "application"
+                  "value":
+                    "id": "meraki:layer7/application/375"
+                - "type": "custom"
+                  "value":
+                    "destination":
+                      "cidr": "any"
+                      "port": "any"
+                    "protocol": "any"
+                    "source":
+                      "cidr": "any"
+                      "port": "any"
+              - "fail_over_criterion": "poorPerformance"
+                "name": "policy 2"
+                "performance_class":
+                  "builtin_performance_class_name": "VoIP"
+                  "type": "builtin"
+                "preferred_uplink": "wan1"
+                "traffic_filters":
+                - "type": "application"
+                  "value":
+                    "id": "meraki:layer7/application/4"
+                - "type": "custom"
+                  "value":
+                    "destination":
+                      "cidr": "any"
+                      "port": "any"
+                    "protocol": "any"
+                    "source":
+                      "cidr": "any"
+                      "port": "any"
+          "vlans":
+          - "appliance_ip": "10.12.10.1"
+            "dhcp_handling": "Relay DHCP to another server"
+            "dhcp_relay_server_ips":
+            - "10.0.20.11"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": false
+            "name": "Data"
+            "subnet": "10.10.10.0/24"
+            "vlan_id": 10
+          - "appliance_ip": "10.1.7.11"
+            "dhcp_handling": "Do not respond to DHCP requests"
+            "ipv6":
+              "enabled": false
+            "name": "shared_services"
+            "subnet": "10.1.7.0/24"
+            "vlan_id": 17
+          - "appliance_ip": "10.12.20.1"
+            "dhcp_handling": "Run a DHCP server"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": false
+            "name": "Voice"
+            "subnet": "10.10.20.0/24"
+            "vlan_id": 20
+          - "appliance_ip": "10.12.30.1"
+            "dhcp_handling": "Run a DHCP server"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": false
+            "name": "Iot"
+            "subnet": "10.10.30.0/24"
+            "vlan_id": 30
+          - "appliance_ip": "10.12.50.1"
+            "dhcp_boot_options": false
+            "dhcp_handling": "Run a DHCP server"
+            "dhcp_lease_time": "1 day"
+            "dns_nameservers": "opendns"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": true
+            "name": "Guest"
+            "subnet": "10.10.50.0/24"
+            "vlan_id": 50
+          - "appliance_ip": "10.12.255.1"
+            "dhcp_handling": "Relay DHCP to another server"
+            "dhcp_relay_server_ips":
+            - "10.0.20.11"
+            "dns_nameservers": "opendns"
+            "ipv6":
+              "enabled": false
+            "mandatory_dhcp": false
+            "name": "Infra"
+            "subnet": "10.10.255.0/24"
+            "vlan_id": 999
+          "vpn_site_to_site_vpn":
+            "mode": "hub"
+            "subnets":
+            - "local_subnet": "10.10.10.0/24"
+              "use_vpn": true
+            - "local_subnet": "10.10.20.0/24"
+              "use_vpn": true
+            - "local_subnet": "10.10.30.0/24"
+              "use_vpn": true
+            - "local_subnet": "10.10.255.0/24"
+              "use_vpn": false
+        "devices":
+        - "address": "Huntsville, UT"
+          "appliance":
+            "uplinks_settings":
+              "wan1":
+                "enabled": true
+                "svis":
+                  "ipv4":
+                    "assignment_mode": "dynamic"
+                  "ipv6":
+                    "assignment_mode": "dynamic"
+                "vlan_tagging":
+                  "enabled": false
+              "wan2":
+                "enabled": false
+                "svis":
+                  "ipv4":
+                    "assignment_mode": "dynamic"
+                  "ipv6":
+                    "assignment_mode": "dynamic"
+                "vlan_tagging":
+                  "enabled": false
+          "lat": 41.20462195481988
+          "lng": -111.87970074548907
+          "name": "wwt-eft-hub-r1"
+          "notes": "wwt-eft Hub Site"
+          "serial": "Q2YN-URN3-RHUU"
+          "tags":
+          - "hub"
+        - "address": "Huntsville, UT"
+          "lat": 41.20462195481988
+          "lng": -111.87970074548907
+          "name": "wwt-eft-hub-sw1"
+          "otes": "hub cloud fabric"
+          "serial": "Q5KD-FH6K-MKBX"
+          "switch":
+            "ports":
+            - "enabled": true
+              "link_negotiation": "Auto negotiate"
+              "name": "Access Port"
+              "port_id_ranges":
+              - "from": 1
+                "to": 20
+              "rstp": true
+              "storm_control": true
+              "stp_guard": "bpdu guard"
+              "tags":
+              - "access"
+              "type": "access"
+              "vlan": 10
+              "voice_vlan": 20
+            - "allowed_vlans": "1,10,20,30,50,999"
+              "enabled": true
+              "link_negotiation": "Auto negotiate"
+              "name": "Uplink"
+              "port_id_ranges":
+              - "from": 21
+                "to": 24
+              "rstp": true
+              "storm_control": true
+              "tags":
+              - "uplink"
+              - "trunk"
+              "type": "trunk"
+              "udld": "Alert only"
+              "vlan": 1
+          "tags":
+          - "C9300-24"
+          - "cfab-spine"
+        - "address": "Huntsville, UT"
+          "lat": 41.20462195481988
+          "lng": -111.87970074548907
+          "name": "wwt-eft-hub-sw2"
+          "notes": "hub cloud fabric"
+          "serial": "Q5KD-5LGL-AQ9D"
+          "switch":
+            "ports":
+            - "enabled": true
+              "link_negotiation": "Auto negotiate"
+              "name": "Access Port"
+              "port_id_ranges":
+              - "from": 1
+                "to": 20
+              "rstp": true
+              "storm_control": true
+              "stp_guard": "bpdu guard"
+              "tags":
+              - "access"
+              "type": "access"
+              "vlan": 10
+              "voice_vlan": 20
+            - "allowed_vlans": "1,10,20,30,50,999"
+              "enabled": true
+              "link_negotiation": "Auto negotiate"
+              "name": "Uplink"
+              "port_id_ranges":
+              - "from": 21
+                "to": 24
+              "rstp": true
+              "storm_control": true
+              "tags":
+              - "uplink"
+              - "trunk"
+              "type": "trunk"
+              "udld": "Alert only"
+              "vlan": 1
+          "tags":
+          - "C9300-24"
+          - "cfab-leaf"
+        - "address": "Huntsville, UT"
+          "lat": 41.20462195481988
+          "lng": -111.87970074548907
+          "name": "wwt-eft-hub-sw3"
+          "notes": "hub cloud fabric"
+          "serial": "Q5JN-5L84-T9KV"
+          "switch":
+            "ports":
+            - "enabled": true
+              "link_negotiation": "Auto negotiate"
+              "name": "Access Port"
+              "port_id_ranges":
+              - "from": 1
+                "to": 20
+              "rstp": true
+              "storm_control": true
+              "stp_guard": "bpdu guard"
+              "tags":
+              - "access"
+              "type": "access"
+              "vlan": 10
+              "voice_vlan": 20
+            - "allowed_vlans": "1,10,20,30,50,999"
+              "enabled": true
+              "link_negotiation": "Auto negotiate"
+              "name": "Uplink"
+              "port_id_ranges":
+              - "from": 21
+                "to": 24
+              "rstp": true
+              "storm_control": true
+              "tags":
+              - "uplink"
+              - "trunk"
+              "type": "trunk"
+              "udld": "Alert only"
+              "vlan": 1
+          "tags":
+          - "C9300-24"
+          - "cfab-leaf"
+        "name": "wwt-eft-hub"
+        "notes": "This is a hub network created via Netascode."
+        "product_types":
+        - "appliance"
+        - null
+        - "wireless"
+        - "cellularGateway"
+        "settings":
+          "local_status_page_authentication":
+            "password": "TSA@dm1n!!TSA@dm1n!!"
+            "username": "nnielsen"
+          "local_status_page_enabled": true
+          "named_vlans": true
+          "remote_status_page": true
+          "secure_port": false
+        "snmp":
+          "access": "users"
+          "users":
+          - "passphrase": "CHANGE_ME_SNMP"
+            "username": "snmpUser"
+        "syslog_servers":
+        - "host": "10.0.20.18"
+          "port": 514
+          "roles":
+          - "Switch event log"
+          - "Air Marshal events"
+          - "Flows"
+          - "URLs"
+          - "Wireless event log"
+          - "Appliance event log"
+        "tags":
+        - "small_branch"
+        "templates":
+        - "nw_setup"
+        - "nw_management"
+        - "hub_inventory"
+        - "wan_dhcp_dhcp2"
+        - "app_hub"
+        - "app_ports"
+        - "app_settings"
+        - "app_vlans"
+        - "app_fw"
+        - "app_ts"
+        - "app_content"
+        - "app_intrusion"
+        - "internet_policies"
+        "time_zone": "America/Denver"
+        "variables":
+          "access_switch_01_name": "wwt-eft-hub-sw1"
+          "access_switch_01_serial": "Q5KD-FH6K-MKBX"
+          "access_switch_02_name": "wwt-eft-hub-sw2"
+          "access_switch_02_serial": "Q5KD-5LGL-AQ9D"
+          "access_switch_03_name": "wwt-eft-hub-sw3"
+          "access_switch_03_serial": "Q5JN-5L84-T9KV"
+          "address": "Huntsville, UT"
+          "appliance_02_name": "wwt-eft-hub-r1"
+          "appliance_02_serial": "Q2YN-URN3-RHUU"
+          "corp_dhcp_server1": "10.0.20.11"
+          "hub_network_name": "wwt-eft-hub"
+          "lat": 41.20462195481988
+          "lng": -111.87970074548907
+          "network_notes": "This is a hub network created via Netascode."
+          "radius_accounting_server1_host": "10.0.20.5"
+          "radius_accounting_server1_port": 1813
+          "radius_server1_host": "10.0.20.5"
+          "radius_server1_port": 1812
+          "splash_reply_to_email_address": "example@example.com"
+          "static_route1_enabled": true
+          "static_route1_gw": "10.1.7.1"
+          "static_route1_subnet": "10.0.20.0/24"
+          "switch_mtu_size": 8900
+          "syslog_port": 514
+          "syslog_server": "10.0.20.18"
+          "time_zone": "America/Denver"
+          "vlan10_appliance_ip": "10.12.10.1"
+          "vlan10_subnet": "10.10.10.0/24"
+          "vlan17_appliance_ip": "10.1.7.11"
+          "vlan17_subnet": "10.1.7.0/24"
+          "vlan20_appliance_ip": "10.12.20.1"
+          "vlan20_subnet": "10.10.20.0/24"
+          "vlan30_appliance_ip": "10.12.30.1"
+          "vlan30_subnet": "10.10.30.0/24"
+          "vlan50_appliance_ip": "10.12.50.1"
+          "vlan50_subnet": "10.10.50.0/24"
+          "vlan999_appliance_ip": "10.12.255.1"
+          "vlan999_subnet": "10.10.255.0/24"
+          "wan1_enabled": true
+          "wan1_limit_down": 400000
+          "wan1_limit_up": 400000
+          "wan2_enabled": false
+          "wan2_limit_down": 500000
+          "wan2_limit_up": 500000
+          "wan_limit_down": 0
+          "wan_limit_up": 0
+      "policy_objects":
+      - "category": "network"
+        "cidr": "10.20.0.0/16"
+        "name": "internal network"
+        "type": "cidr"
+      - "category": "network"
+        "fqdn": "www.cisco.com"
+        "name": "test fqdn"
+        "type": "fqdn"
+      "policy_objects_groups":
+      - "category": "NetworkObjectGroup"
+        "name": "test cidr"
+        "object_names":
+        - "internal network"
+      - "category": "NetworkObjectGroup"
+        "name": "test fqdn"
+        "object_names":
+        - "test fqdn"
+      "snmp":
+        "peer_ips": []
+        "v2c": false
+        "v3": true
+        "v3_auth_mode": "MD5"
+        "v3_auth_pass": "wwt-eft_AUTH"
+        "v3_priv_mode": "AES128"
+        "v3_priv_pass": "wwt-eft_PRIV"

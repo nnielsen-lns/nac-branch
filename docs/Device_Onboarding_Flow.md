@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document explains the Meraki device initial onboarding process and demonstrates best practice VLAN design, specifically covering the migration from VLAN 1 (onboard) to VLAN 999 (management) and the integration with Auto VPN for centralized DHCP services. This applies to all Meraki devices including switches (MS), access points (MR), cameras (MV), and sensors (MT).
+This document explains the Meraki device initial onboarding process and demonstrates best practice VLAN design, specifically covering the migration from VLAN 1 (onboard) to VLAN 999 (management) and the integration with Auto VPN for centralized DHCP services. This applies to all Meraki devices including      es (MS), access points (MR), cameras (MV), and sensors (MT).
 
 ## Example VLAN Structure and Purpose
 
@@ -57,9 +57,9 @@ This document explains the Meraki device initial onboarding process and demonstr
 ### Switches (MS Series)
 **Dashboard Location**: `Switch > Configure > Switch Settings > Management VLAN`
 - **Network-wide**: `Switch > Configure > Switch Settings > Management VLAN`  
-- **Per-device**: Individual switch configuration page
+- **Per-device**: Individual       configuration page
 - **Template Support**: Full template support available
-- **Best Practice**: Configure via switch template for consistency
+- **Best Practice**: Configure via       template for consistency
 
 ### Access Points (MR Series)
 **Dashboard Location**: `Wireless > Configure > Access Points > [Select AP] > Management`
@@ -182,7 +182,7 @@ This document explains the Meraki device initial onboarding process and demonstr
    Network Settings:
    - Create network
    - Configure VLAN 999 as management VLAN for all device types
-   - Set device templates with VLAN 999 management (switches, APs)
+   - Set device templates with VLAN 999 management (     es, APs)
    - Configure network-wide management VLAN for cameras and sensors
    - Configure Auto VPN settings
    ```
@@ -211,7 +211,7 @@ This document explains the Meraki device initial onboarding process and demonstr
 
 1. **Physical Installation**
    - Esnure MX is stable and online and has the MX Base Configuration applied.
-   - Connect device to the network (switch port or PoE+ for cameras)
+   - Connect device to the network (      port or PoE+ for cameras)
    - Ensure device can reach VLAN 1 for initial onboarding
    - Power on device and wait for Dashboard connection and ensure that the light on the device is solid green.
    - Verify device appears in Dashboard inventory
@@ -285,16 +285,16 @@ Please note that VRF is not currently supported on the MX and as such the manage
 
 ## Summary
 
-The Meraki device onboarding flow leveraging VLAN 1 for initial connectivity and VLAN 999 for management provides a robust, scalable approach to comprehensive network infrastructure management. This design pattern works consistently across all dashboard supporteddevice types - switches (MS/Catalyst), access points (MR/Catalyst), cameras (MV), and sensors (MT) - and combined with Auto VPN and central DHCP services, enables zero-touch deployment while maintaining centralized control and security.
+The Meraki device onboarding flow leveraging VLAN 1 for initial connectivity and VLAN 999 for management provides a robust, scalable approach to comprehensive network infrastructure management. This design pattern works consistently across all dashboard supporteddevice types -      es (MS/Catalyst), access points (MR/Catalyst), cameras (MV), and sensors (MT) - and combined with Auto VPN and central DHCP services, enables zero-touch deployment while maintaining centralized control and security.
 
 The key benefits of this approach include:
-- **Unified Deployment**: All  devices (switches, APs, cameras, sensors) follow the same onboarding pattern
+- **Unified Deployment**: All  devices (     es, APs, cameras, sensors) follow the same onboarding pattern
 - **Centralized Management**: Comprehensive device management from central DHCP and Dashboard
 - **Scalability**: Consistent deployment process across all sites and device types
 - **Security**: Management traffic isolated and controlled for entire infrastructure
 - **Simplified Operations**: Single management VLAN strategy reduces complexity
 
-By following these best practices and understanding the device-specific behaviors, organizations can implement a robust, comprehensive Meraki infrastructure that includes switching, wireless, security cameras, and environmental monitoring - all managed through a unified approach that scales efficiently and maintains security standards.
+By following these best practices and understanding the device-specific behaviors, organizations can implement a robust, comprehensive Meraki infrastructure that includes      ing, wireless, security cameras, and environmental monitoring - all managed through a unified approach that scales efficiently and maintains security standards.
 
 ## References
 

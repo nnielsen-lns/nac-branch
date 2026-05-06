@@ -11,10 +11,10 @@ meraki:
       #
       # The below code does the following:
       # 
-      # Switch configuration including switch heirachy and setup, access control, QoS
+      # Switch configuration including       heirachy and setup, access control, QoS
       # and network policies
       #
-      # This template configures the complete switching infrastructure:
+      # This template configures the complete      ing infrastructure:
       #
       # Access Policies: - Configures a wired radius policy for authentication endpoints to the wire.
       #
@@ -26,7 +26,7 @@ meraki:
       # - Filter-Id attribute (11) maps to Meraki group policies for policy assignment
       #
       # Switch Settings:
-      # - Management VLAN 999 for out-of-band management (migrates from VLAN 1 after onboarding)
+      # - Management VLAN 103 for out-of-band management (migrates from VLAN 1 after onboarding)
       # - Uplink client sampling for traffic analytics
       # - Jumbo frame support with MTU configuration configured at 9176
       # - IGMP snooping for multicast optimization
@@ -46,9 +46,9 @@ meraki:
       # - ${radius_server1_host/port}: Primary RADIUS server details
       # - !env radius_server1_secret: RADIUS shared secret (from environment)
       # - ${radius_accounting_server1_host/port}: RADIUS accounting server
-      # - ${switch_mtu_size}: Maximum transmission unit size (default 9176)
+      # - ${     _mtu_size}: Maximum transmission unit size (default 9176)
       # - ${access_stack_01_name}: Switch stack identifier
-      # - ${access_switch_01_name/02_name}: Individual switch serial numbers
+      # - ${access_     _01_name/02_name}: Individual       serial numbers
       #
       #
       - name: switch
@@ -67,7 +67,7 @@ meraki:
               radius_coa_support: true
               radius_testing: true
               radius_group_attribute: "11"
-              host_mode: Multi-Host
+              host_mode: Multi-Auth
               voice_vlan_clients: true
               access_policy_type: Hybrid authentication
               radius:
@@ -75,7 +75,7 @@ meraki:
               dot1x_control_direction: both
               url_redirect_walled_garden: false
           settings:
-            vlan: 999
+            vlan: 103
             use_combined_power: false
             uplink_client_sampling: true
             mac_blocklist: false
@@ -152,25 +152,25 @@ meraki:
             - cos: 5
               dscp: 56
               title: Network Control CS7
-          qos_rules:
-              - vlan: 20
-                protocol: ANY
-                dscp: -1
-                qos_rule_name: Trust_DSCP_Voice_VLAN
-              - vlan: 30
-                protocol: ANY
-                dscp: -1
-                qos_rule_name: Remark_Guest_to_Default
-              - vlan: 10
-                protocol: UDP
-                source_port_range: 16384-32767
-                destination_port_range: 16385-32767
-                dscp: 46
-                qos_rule_name: Voice_to_EF_Data_VLAN
-              - vlan: 10
-                protocol: ANY
-                dscp: -1
-                qos_rule_name: Other_to_Default_Data_VLAN
+          # qos_rules:
+          #     - vlan: 1022
+          #       protocol: ANY
+          #       dscp: -1
+          #       qos_rule_name: Trust_DSCP_Voice_VLAN
+          #     - vlan: 1024
+          #       protocol: ANY
+          #       dscp: -1
+          #       qos_rule_name: Remark_Guest_to_Default
+          #     - vlan: 1023
+          #       protocol: UDP
+          #       source_port_range: 16384-32767
+          #       destination_port_range: 16385-32767
+          #       dscp: 46
+          #       qos_rule_name: Voice_to_EF_Data_VLAN
+          #     - vlan: 1023
+          #       protocol: ANY
+          #       dscp: -1
+          #       qos_rule_name: Other_to_Default_Data_VLAN
           storm_control:
               broadcast_threshold: 30
               multicast_threshold: 30
@@ -178,11 +178,11 @@ meraki:
           stp:
             stp_bridge_priority:
               - stp_priority: 8192
-                stacks:
-                  - ${access_stack_01_name}
+                switches:
+                  - ${access_switch_01_name}
             rstp: true
-        switch_stacks:
-          - name: ${access_stack_01_name}
-            devices:
-              - ${access_switch_01_name}
-              - ${access_switch_02_name}
+        #      _stacks:
+        #   - name: ${access_stack_01_name}
+        #     devices:
+        #       - ${access_     _01_name}
+        #       - ${access_     _02_name}

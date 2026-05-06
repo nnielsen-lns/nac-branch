@@ -238,9 +238,9 @@ meraki:
                   - host: ${radius_accounting_server1_host}
                     port: 1813
                     secret: !env radius_accounting_server1_secret
-                  - host: ${radius_accounting_server2_host}
-                    port: 1813
-                    secret: !env radius_accounting_server1_secret
+                #   - host: ${radius_accounting_server2_host}
+                #     port: 1813
+                #     secret: !env radius_accounting_server1_secret
                 attribute_for_group_policies: Filter-Id
                 coa: false
                 override: true
@@ -248,9 +248,9 @@ meraki:
                   - host: ${radius_server1_host}
                     port: 1812
                     secret: !env radius_server1_secret
-                  - host: ${radius_server2_host}
-                    port: 1812
-                    secret: !env radius_server1_secret
+                #  - host: ${radius_server2_host}
+                #    port: 1812
+                #    secret: !env radius_server1_secret
                 testing: true
               unavailability_schedules:
                 enabled: ${data_ssid_schedules_enabled}
@@ -275,7 +275,7 @@ meraki:
               available_on_all_aps: true
               band_selection: Dual band operation
               default_vlan_id: 50
-              enabled: true 
+              enabled: false 
               firewall_l3_firewall_rules:
                 allow_lan_access: false
               ip_assignment_mode: Bridge mode

@@ -2,7 +2,7 @@ meraki:
   domains:
     - name: !env domain
       administrator:
-        name: admin
+        name: nnielsen
       organizations:
         - name: !env org_name
           managed: false
@@ -31,10 +31,10 @@ meraki:
             v3_priv_pass: !env v3_priv_pass
             peer_ips: []
           # policy_objects:
-          #     - name: test cidr
+          #     - name: internal network
           #       category: network
           #       type: cidr
-          #       cidr: 10.0.0.0/24
+          #       cidr: 10.20.0.0/16
           #     - name: test fqdn
           #       category: network
           #       type: fqdn
@@ -43,7 +43,7 @@ meraki:
           #     - name: test cidr
           #       category: NetworkObjectGroup
           #       object_names:
-          #         - test cidr  # This references the "test" policy object by name
+          #         - internal network  # This references the "test" policy object by name
           #     - name: test fqdn
           #       category: NetworkObjectGroup
           #       object_names:
@@ -55,7 +55,7 @@ meraki:
                   policy: allow
                   protocol: tcp
                   source_port: "Any"
-                  source_cidr: "192.168.1.0/24"
+                  source_cidr: "10.10.0.0/24"
                   destination_port: "443"
                   # The CIDR Object must be created in Policy Objects in order to be applied.
                   destination_cidr: "10.0.0.0/24"
@@ -77,3 +77,76 @@ meraki:
                   destination_cidr: "Any"
                   syslog: false
               syslog_default_rule: true
+          # further validations
+          adaptive_policy:
+            settings_enabled_networks:
+              - gsa-cloud-fabric
+            groups:
+              - name: "Guest"
+                sgt: 14
+                description: "Guest WiFi users"
+              - name: "Employee"
+                sgt: 10
+                description: "Corporate users"
+              - name: "Contractor"
+                sgt: 11
+                description: "Red badge workers"
+              - name: "IT_Admin"
+                sgt: 13
+                description: "Elevated access"
+              - name: "Corp_Endpoints"
+                sgt: 20
+                description: "Corporate assets"
+              - name: "BYOD"
+                sgt: 21
+                description: "Maybe it will work"
+            acls:
+              - name: "Block Internal"
+                ip_version: ipv4
+                rules:
+                  - policy: deny
+                    protocol: any
+                    source_port: any
+                    destination_port: any
+            #   - name: "Allow All"
+            #     ip_version: ipv4
+            #     rules:
+            #       - policy: allow
+            #         protocol: any
+            #         source_port: any
+            #         destination_port: any
+            # Step 4: Policies (Group to Group rules)
+            # adaptive_policy_policies:
+            #   ## Guests blocked from Infrastructure
+            #   - source_group:
+            #       name: "Guests"
+            #     destination_group:
+            #       name: "Infrastructure"
+            #     acls:
+            #       - name: "Block Internal"
+            #     last_entry_rule: deny
+            #   ## Employees can access everything
+            #   - source_group:
+            #       name: "Employees"
+            #     destination_group:
+            #       name: "Infrastructure"
+            #     acls:
+            #       - name: "Allow All"
+            #     last_entry_rule: allow
+          vrfs:
+            - name: grt
+              route_distinguisher: auto
+              route_target: auto
+              wan_appliance: true
+            - name: corp
+              route_distinguisher: auto
+              route_target: auto
+              wan_appliance: true
+            - name: iot
+              route_distinguisher: "65010:10"
+              route_target: "65010:10"
+              wan_appliance: true
+            - name: guest
+              route_distinguisher: "65010:10"
+              route_target: "65010:10"
+              wan_appliance: true

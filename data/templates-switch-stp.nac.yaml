@@ -1,0 +1,77 @@
+# ===============================================================
+# SWITCH SETTINGS + SPANNING TREE
+# ===============================================================
+#
+# Topology: 1 border/spine + 2 leaves
+# Fabric data VLANs:        1021-1025
+# Management/uplink VLANs:  900-915  (per directions)
+#
+# This template applies to the network "switch_stp" (rename below
+# to match the template network you actually want this to land on).
+#
+# What this file DOES configure (supported by netascode v0.5.0 +
+# ciscodevnet/meraki v1.9.0):
+#   - Switch management VLAN
+#   - RSTP enabled (network-wide)
+#   - Per-switch bridge priority:
+#       * border/spine = 0       (root bridge for the network)
+#       * both leaves  = 61440   (never elected root)
+#
+# What this file does NOT configure (schema gap - must be done in
+# the Meraki dashboard manually, or via direct API call):
+#   - RPVST+ per-VLAN bridge priority. The directions ask for the
+#     leaves to be priority 61440 for VLANs 900-915 and priority 0
+#     for fabric subnets 1021-1025, and for SPINE-1/SPINE-2 to be
+#     root for different VLAN halves. Neither the netascode YAML
+#     nor the meraki_switch_stp Terraform resource accept a vlans:
+#     field today. The single-priority-per-switch values below are
+#     the closest macro approximation.
+#
+# Note from the procedure that prompted this file:
+#   "By converting to RPVST+ you are limited to 300 total active
+#    vlans. Trunks configured for more than 1000 vlans will be
+#    truncated to 300."
+# Make sure VLAN pruning is done before flipping RPVST+ in the
+# dashboard.
+#
+# Variables expected (define in defaults.nac.yaml or pass as TF vars):
+#   ${management_vlan_id}     e.g. 900
+#   ${border_spine_01_name}   hostname of the border/spine switch
+#   ${leaf_switch_01_name}    hostname of leaf 1
+#   ${leaf_switch_02_name}    hostname of leaf 2
+#
+meraki:
+  template:
+    networks:
+      - name: switch_stp
+        switch:
+          # ==============================================================
+          # Switch Settings
+          # Maps to: Switching > Switches > Switch Settings (dashboard)
+          # API:     PUT /networks/{networkId}/switch/settings
+          # ==============================================================
+          settings:
+            vlan: ${management_vlan_id}
+          # ==============================================================
+          # Spanning Tree
+          # Maps to: Switching > Switches > Switch Settings > STP config
+          # API:     PUT /networks/{networkId}/switch/stp
+          #
+          # rstp: true is the equivalent of "Enable RSTP" in the
+          # dashboard. Note: enabling RPVST+ (the per-VLAN flavor)
+          # is a separate dashboard toggle that is NOT exposed in
+          # this YAML schema as of provider 1.9.0 / module v0.5.0
+          # - flip it manually after the apply.
+          # ==============================================================
+          stp:
+            rstp: true
+            stp_bridge_priority:
+              # Border/spine = lowest priority value = root bridge
+              - stp_priority: 0
+                switches:
+                  - ${border_spine_01_name}
+              # Both leaves = highest priority value = never root
+              - stp_priority: 61440
+                switches:
+                  - ${leaf_switch_01_name}
+                  - ${leaf_switch_02_name}

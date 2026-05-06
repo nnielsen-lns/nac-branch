@@ -11,7 +11,7 @@
 # - templates-appliance.nac.yaml
 # - templates-inventory.nac.yaml
 # - templates-network-related.nac.yaml
-# - templates-switch.nac.yaml
+# - templates-     .nac.yaml
 # - templates-wireless.nac.yaml
 # - templates-wan-uplinks.nac.yaml
 # - templates-wan-ts.nac.yaml
@@ -29,7 +29,7 @@ meraki:
   domains:
     - name: !env domain
       administrator:
-        name: admin
+        name: nnielsen
       organizations:
         #
         # The below code does the following:
@@ -96,9 +96,9 @@ meraki:
             #  - nw_management
             #  - group_policies
             #
-            #  From templates-switch.nac.yaml
-            #  - switch
-            #  - switch_stacks
+            #  From templates-     .nac.yaml
+            #  -      
+            #  -      _stacks
             #
             #  From templates-wan-connectivity.nac.yaml
             #  - appl_comonitoring
@@ -177,19 +177,19 @@ meraki:
             #
             #  From app_spoke, app_vlans, & internet_policies templates:
             #  - vlan10_subnet: String - IPv4 address with CIDR of VLAN 10 (Date)
-            #  - vlan20_subnet: String - IPv4 address with CIDR of VLAN 20 (Voice)
+            #  - vlan1021_subnet: String - IPv4 address with CIDR of VLAN 20 (Voice)
 
             #  From app_spoke & app_vlans tempates:
-            #  - vlan30_subnet: String - IPv4 address with CIDR of VLAN 30 (Iot)
-            #  - vlan50_subnet: String - IPv4 address with CIDR of VLAN 50 (Guest)
-            #  - vlan999_subnet: String - IPv4 address with CIDR ov VLAN 999 (Infra)
+            #  - vlan1022_subnet: String - IPv4 address with CIDR of VLAN 30 (Iot)
+            #  - vlan1023_subnet: String - IPv4 address with CIDR of VLAN 50 (Guest)
+            #  - vlan1024_subnet: String - IPv4 address with CIDR ov VLAN 103 (Infra)
             #
             #  From app_vlans template: 
             #  - vlan10_appliance_ip: String - IPv4 address of MX for VLAN 10 (Data)
-            #  - vlan20_appliance_ip: String - IPv4 address of MX for VLAN 20 (Voice)
-            #  - vlan30_appliance_ip: String - IPv4 address of MX for VLAN 30 (Iot)
-            #  - vlan50_appliance_ip: String - IPv4 address of MX for VLAN 50 (Guest)
-            #  - vlan999_appliance_ip: String - IPv4 address of MX for VLAN 999 (Infra)
+            #  - vlan1021_appliance_ip: String - IPv4 address of MX for VLAN 20 (Voice)
+            #  - vlan1022_appliance_ip: String - IPv4 address of MX for VLAN 30 (Iot)
+            #  - vlan1023_appliance_ip: String - IPv4 address of MX for VLAN 50 (Guest)
+            #  - vlan1024_appliance_ip: String - IPv4 address of MX for VLAN 103 (Infra)
             #  - corp_dhcp_server1: String - IPv4 address of remote DHCP Server 1
             #  - corp_dhcp_server2: String - IPv4 address of remote DHCP Server 2
             #
@@ -205,10 +205,10 @@ meraki:
             #  - lat: String - Latitude coordinates for devices in the network
             #  - lng: String - Longitude coordinates for devices in the network
             #  - address: String - Location address for devices in the network
-            #  - access_switch_01_name: String - Descriptive device name for first switch
-            #  - access_switch_01_serial: String - Device serial number for first switch
-            #  - access_switch_02_name: String - Descriptive device name for second switch
-            #  - access_switch_02_serial: String - Device serial number for second switch
+            #  - access_     _01_name: String - Descriptive device name for first      
+            #  - access_     _01_serial: String - Device serial number for first      
+            #  - access_     _02_name: String - Descriptive device name for second      
+            #  - access_     _02_serial: String - Device serial number for second      
             #  - ap_01_name: String - Descriptive device name for first AP
             #  - ap_01_serial: String - Device serial number for first AP
             #  - ap_02_name: String - Descriptive device name for second AP
@@ -229,17 +229,17 @@ meraki:
             #  - voice_vlan_group_policy: String - Group policy name for device assignment to VLAN 20 (Voice)
             #  - iot_vlan_group_policy: String - Group policy name for device assignment to VLAN 30 (Iot)
             #
-            # From switch and wireless templates:
+            # From       and wireless templates:
             #  - radius_accounting_server1_host: String - IPv4 address of the first RADIUS accounting server
             #  - radius_accounting_server1_port: Integer (min=1, max=65535) - First RADIUS accounting server port
             #  - radius_server1_host: String - IPv4 address of the first RADIUS server
             #  - radius_server1_port: Integer (min=1, max=65535) - First RADIUS server port
             #
-            #  From switch template:
-            #  - switch_mtu_size: Integer (min=1, max=9578) - MTU size of the switch
-            #  - access_stack_01_name: String - Descriptive name for the switch stack
-            #  - access_switch_01_name String - Descriptive name for first switch in the stack
-            #  - access_switch_02_name String - Descriptive name for second switch in the stack
+            #  From       template:
+            #  -      _mtu_size: Integer (min=1, max=9578) - MTU size of the      
+            #  - access_stack_01_name: String - Descriptive name for the       stack
+            #  - access_     _01_name String - Descriptive name for first       in the stack
+            #  - access_     _02_name String - Descriptive name for second       in the stack
             #
             #  From wireless
             #  - data_wireless_ssid_name: String - Descriptive name for the SSID corresponding to employee traffic
@@ -252,80 +252,171 @@ meraki:
             #  - guest_wireless_ssid_bw_up: Integer (min=0, max=1000000) - Guest SSID upstream rate-limit (0 = unlimited)
             #  - guest_ssid_welcome_message: String - Message displayed in Guest SSID pass-through splash page
             #
-            - name: Unified Branch 2
-              templates: [nw_setup, nw_management, app_ports, switch, small_branch_inventory, wan_dhcp_dhcp, wireless, app_settings, app_spoke,  app_vlans, app_fw, app_ts,app_content, app_intrusion, app_mal, internet_policies, app_static_routes, group_policies]
-              variables:
-                syslog_server: 3.4.5.6
+            - name: gsa-cloud-fabric
+              managed: true
+              templates: [nw_setup, nw_management, app_ports, cloud_fabric_inventory, switch, wan_dhcp_dhcp, app_spoke, app_vlans, app_settings, app_fw, app_bgp, wireless, group_policies]
+              variables:     
+                syslog_server: 10.0.20.18
                 syslog_port: 514
                 # netflow_server: 4.5.6.7
                 # netflow_port: 2055
-                appliance_01_name: Branch2-appliance-01
-                access_switch_01_name: Branch2-Cat9300-01
-                access_switch_02_name: Branch2-Cat9300-02
-                access_stack_01_name: Access-Stack-01
-                ap_01_name: Branch2-ap-01
-                ap_02_name: Branch2-ap-02
-                appliance_01_serial: !env Appliance
+                appliance_01_name: gsa-cf-r1
+                access_switch_01_name: gsa-cf-border1
+                access_switch_02_name: gsa-cf-leaf101
+                access_switch_03_name: gsa-cf-leaf102
+                appliance_01_serial: !env Appliance1
                 access_switch_01_serial: !env Switch1
                 access_switch_02_serial: !env Switch2
+                access_switch_03_serial: !env Switch3
+                # access_stack_01_name: Access-Stack-01
+                ap_01_name: gsa-cf-ap1
+                ap_02_name: gsa-cf-ap2
                 ap_01_serial: !env AP
                 ap_02_serial: !env AP2
-                lat: 37.41809510000001
-                lng: -122.098531
+                lat: 41.237582165     
+                lng: -111.83567583209445
                 wan1_enabled: true
                 wan2_enabled: true
-                address: Wake Forest, N.C.
-                vlan10_subnet: 10.2.10.0/24
-                vlan10_appliance_ip: 10.2.10.1
-                vlan20_subnet: 10.2.20.0/24
-                vlan20_appliance_ip: 10.2.20.1
-                vlan30_subnet: 10.2.30.0/24
-                vlan30_appliance_ip: 10.2.30.1
-                vlan50_subnet: 10.2.50.0/24
-                vlan50_appliance_ip: 10.2.50.1
-                vlan999_appliance_ip: 10.2.255.1
-                vlan999_subnet: 10.2.255.0/24
-                hub_network_name: Unified Hub
-                data_wireless_ssid_name: Data
-                data_vlan_group_policy: Employees
-                voice_vlan_group_policy: Voice
-                iot_vlan_group_policy: Iot
-                data_ssid_schedules_enabled: true
-                guest_wireless_ssid_name: Guest
+                address: Huntsville, UT
+                vlan103_subnet: 10.10.103.0/24
+                vlan103_appliance_ip: 10.10.103.1
+                vlan410_subnet: 10.10.255.0/30
+                vlan410_appliance_ip: 10.10.255.1
+                vlan410_name: underlay
+                vlan420_subnet: 10.10.255.4/30
+                vlan420_appliance_ip: 10.10.255.5
+                vlan420_name: eBGP_corp
+                vlan430_subnet: 10.10.255.8/30
+                vlan430_appliance_ip: 10.10.255.9
+                vlan430_name: eBGP_iot
+                vlan440_subnet: 10.10.255.12/30
+                vlan440_appliance_ip: 10.10.255.13
+                vlan440_name: eBGP_guest
+                hub_network_name: gsa-demo-dc1-nate
+                data_wireless_ssid_name: Alpina
+                data_vlan_group_policy: corp-data
+                voice_vlan_group_policy: corp-voice
+                iot_vlan_group_policy: iot-data
+                data_ssid_schedules_enabled: false
+                guest_wireless_ssid_name: skibbidy
                 guest_wireless_client_bw_down: 0
                 guest_wireless_client_bw_up: 0
                 guest_wireless_ssid_bw_down: 0
                 guest_wireless_ssid_bw_up: 0
                 guest_ssid_schedules_enabled: true
                 guest_ssid_welcome_message: Unauthorized access is prohibited.
-                radius_accounting_server1_host: 172.16.2.1
+                radius_accounting_server1_host: 10.0.20.5
                 radius_accounting_server1_port: 1813
-                radius_accounting_server2_host: 172.16.2.2
-                radius_server1_host: 172.16.2.1
+                # radius_accounting_server2_host: 172.16.2.2
+                radius_server1_host: 10.0.20.5
                 radius_server1_port: 1812
-                radius_server2_host: 172.16.2.2
-                static_route1_subnet: 10.101.10.0/24
-                static_route1_gw: 10.2.10.2
+                # radius_server2_host: 172.16.2.2
+                # static_route1_subnet: 10.10.255.0/24
+                # static_route1_gw: 10.1.7.1
                 # static_route1_enabled: true
-                static_route2_subnet: 10.101.20.0/24
-                static_route2_gw: 10.2.20.2
+                # static_route2_subnet: 10.0.20.0/24
+                # static_route2_gw: 10.1.7.1
                 # static_route2_enabled: true
                 splash_reply_to_email_address: example@example.com
-                switch_mtu_size: 9176
-                time_zone: America/New_York
-                network_notes: This is a small branch network created via Netascode.
+                switch_mtu_size: 9100
+                time_zone: America/Denver
+                network_notes: This is a cloud fabric network created via Netascode.
                 wan_limit_down: 0
                 wan_limit_up: 0
                 wan1_limit_down: 400000
                 wan1_limit_up: 400000
                 wan2_limit_down: 500000
                 wan2_limit_up: 500000
+                # My variables
+                corp_dhcp_server1: 10.0.20.11
+              # bgp variables
+                mx_bgp_asn: 65010
+                border_bgp_asn: 65110 
+                underlay_peer_ip: 10.10.255.2
+                iot_peer_ip: 10.10.255.10
+                guest_peer_ip: 10.10.255.14
+                corp_peer_ip: 10.10.255.6
+
+              # Enable Adaptive Policy
+                adaptive_policy_settings:
+                  enabled: true
+            # # Assign SSIDs to groups
+            # wireless:
+            #   ssids:
+            #     - name: "eft-Guest"
+            #       number: 1
+            #       adaptive_policy_group:
+            #         name: "Guests"
+            #     - name: "eft-Data"
+            #       number: 0
+            #       adaptive_policy_group:
+            #         name: "Employees"
             #
             # The below code does the following:
             #
-            # Defines/creates the hub network named "Unified Hub".
+            # Defines/creates the hub network named "gsa-hub".
             #
             # Managed is set to false - this makes the module aware of it for lookups without trying to create it.
             #
-            - name: Unified Hub
+            # - name: gsa-hub
+            #   managed: true
+            #   templates: [nw_setup, nw_management, hub_inventory, wan_dhcp_dhcp2, app_hub, app_ports, app_settings, app_vlans, app_fw, app_ts, app_content, app_intrusion, internet_policies]
+            #   variables:     
+            #     syslog_server: 10.0.20.18
+            #     syslog_port: 514
+            #     # netflow_server: 4.5.6.7
+            #     # netflow_port: 2055
+            #     appliance_01_name: gsa-hub-r1
+            #     access_switch_01_name: gsa-hub-sw1
+            #     access_switch_02_name: gsa-hub-sw2
+            #     access_switch_03_name: gsa-hub-sw3
+            #     # access_stack_01_name: Access-Stack-01
+            #     appliance_01_serial: !env Appliance2
+            #     access_switch_01_serial: !env Switch1
+            #     access_switch_02_serial: !env Switch2
+            #     access_switch_03_serial: !env Switch3
+            #     lat: 41.20462195481988
+            #     lng: -111.87970074548907
+            #     wan1_enabled: true
+            #     wan2_enabled: false
+            #     address: Huntsville, UT
+            #     vlan10_subnet: 10.10.11.0/24
+            #     vlan10_appliance_ip: 10.10.11.1
+            #     vlan1021_subnet: 10.10.224.0/24
+            #     vlan1021_appliance_ip: 10.10.224.1
+            #     vlan1022_subnet: 10.10.1.0/24
+            #     vlan1022_appliance_ip: 10.10.1.1
+            #     vlan1023_subnet: 10.10.0.0/24
+            #     vlan1023_appliance_ip: 10.10.0.1
+            #     vlan1024_appliance_ip: 10.10.255.1
+            #     vlan1024_subnet: 10.10.255.0/24
+            #     hub_network_name: gsa-hub
+            # 
+            #     radius_accounting_server1_host: 10.0.20.5
+            #     radius_accounting_server1_port: 1813
+            #     # radius_accounting_server2_host: 172.16.2.2
+            #     radius_server1_host: 10.0.20.5
+            #     radius_server1_port: 1812
+            #     # radius_server2_host: 172.16.2.2
+            #     static_route1_subnet: 10.0.20.0/24
+            #     static_route1_gw: 10.1.7.1
+            #     static_route1_enabled: true
+            #     splash_reply_to_email_address: example@example.com
+            #     switch_mtu_size: 8900
+            #     time_zone: America/Denver
+            #     network_notes: This is a hub network created via Netascode.
+            #     wan_limit_down: 0
+            #     wan_limit_up: 0
+            #     wan1_limit_down: 400000
+            #     wan1_limit_up: 400000
+            #     wan2_limit_down: 500000
+            #     wan2_limit_up: 500000
+            #     # My var     
+            #     vlan17_subnet: 10.1.7.0/24
+            #     vlan17_appliance_ip: 10.1.7.11
+            #     corp_dhcp_server1: 10.0.20.11
+            #   # Enable Adaptive Policy
+            #   adaptive_policy_settings:
+            #     enabled: true
+            - name: gsa-demo-dc1-nate
               managed: false

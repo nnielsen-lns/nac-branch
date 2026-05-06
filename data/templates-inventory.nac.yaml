@@ -9,7 +9,7 @@
 #
 # Each template defines network-level configuration which is
 # applicable to the inventory - meaning the secure router,
-# switch, and AP devices - within the site.
+#      , and AP devices - within the site.
 #
 # Note that these templates are not related to templates
 # configured within the Cisco (formerly Meraki) dashboard.
@@ -31,28 +31,295 @@
 meraki:
   template:
     networks:
-      #  - name: hub
-      #    devices:
-      #     - name: ${appliance_01_name}
-      #       serial: ${appliance_01_serial}
-      #       tags:
-      #         - test
-      #       lat: ${lat}
-      #       lng: ${lng}
-      #       address: ${address}
-      #       notes: Small Branch Notes Appliance
-      #       appliance:
-      #         uplinks_settings:
-      #           wan1:
-      #             enabled: true
-      #             svis:
-      #               ipv4:
-      #                 assignment_mode: dynamic
+       - name: cloud_fabric_inventory
+         devices:
+          - name: ${appliance_01_name}
+            serial: ${appliance_01_serial}
+            tags:
+              - hub
+            lat: ${lat}
+            lng: ${lng}
+            address: ${address}
+            notes: cloud fabric
+            appliance:
+              uplinks_settings:
+                wan1:
+                  enabled: true
+                  svis:
+                    ipv4:
+                      assignment_mode: dynamic
                 # wan2:
                 #   enabled: true
                 #   svis:
                 #     ipv4:
                 #       assignment_mode: dynamic
+          - name: ${access_switch_01_name}
+            serial: ${access_switch_01_serial}
+            tags:
+              - C9300X
+              - cf-border
+            lat: ${lat}
+            lng: ${lng}
+            address: ${address}
+            notes: cloud fabric border/spine
+            switch:
+              ports:
+                - port_id_ranges:
+                    - from: 1
+                      to: 21
+                  name: Access Port
+                  enabled: false
+                  type: access
+                  link_negotiation: Auto negotiate
+                  storm_control: true
+                  rstp: true
+                  stp_guard: bpdu guard
+                - port_id_ranges:
+                    - from: 22
+                      to: 22
+                  name: Leaf101-22
+                  enabled: true
+                  type: trunk
+                  tags:
+                    - downlink
+                    - trunk
+                  vlan: 1
+                  allowed_vlans: 1,103,900-901,965-968
+                  link_negotiation: Auto negotiate
+                  udld: Alert only
+                  storm_control: true
+                  peer_sgt_capable: true
+                  rstp: true
+                - port_id_ranges:
+                    - from: 23
+                      to: 23
+                  name: Leaf102-23
+                  enabled: true
+                  type: trunk
+                  tags:
+                    - downlink
+                    - trunk
+                  vlan: 1
+                  allowed_vlans: 1,103,900-901,965-968
+                  link_negotiation: Auto negotiate
+                  udld: Alert only
+                  storm_control: true
+                  peer_sgt_capable: true
+                  rstp: true
+                - port_id_ranges:
+                    - from: 24
+                      to: 24
+                  name: Uplink
+                  enabled: true
+                  type: trunk
+                  tags:
+                    - uplink
+                    - trunk
+                  vlan: 1
+                  allowed_vlans: 1,103,410,420,430,440
+                  link_negotiation: Auto negotiate
+                  udld: Alert only
+                  storm_control: true
+                  rstp: true
+                  peer_sgt_capable: true
+
+#         - name: ${access_switch_01_name}
+#           serial: ${access_switch_01_serial}
+#           tags:
+#             - C9300X
+#             - cfab-spine
+#           lat: ${lat}
+#           lng: ${lng}
+#           address: ${address}
+#           notes: cloud fabric border/spine
+#           switch:
+#             ports:
+#             - port_id_ranges:
+#               - from: 1
+#                 to: 20
+#               name: Access Port
+#               enabled: true
+#               type: access
+#               link_negotiation: Auto negotiate
+#               storm_control: true
+#               rstp: true
+#               stp_guard: bpdu guard
+#             - port_id_ranges:
+#               - from: 21
+#                 to: 24
+#               name: Uplink
+#               enabled: true
+#               type: trunk
+#               tags:
+#                 - uplink
+#                 - trunk
+#               vlan: 1
+#               allowed_vlans: 1,10,1021-1025
+#               link_negotiation: Auto negotiate
+#               udld: Alert only
+#               storm_control: true
+#               rstp: true
+          - name: ${access_switch_02_name}
+            serial: ${access_switch_02_serial}
+            tags:
+              - C9300-24
+              - leaf101
+            lat: ${lat}
+            lng: ${lng}
+            address: ${address}
+            notes: cloud fabric leaf
+            switch:
+              ports:
+              - port_id_ranges:
+                - from: 1
+                  to: 6
+                name: Access Port
+                enabled: true
+                type: access
+                tags:
+                  - access
+                vlan: 1023
+                voice_vlan: 1022
+                link_negotiation: Auto negotiate
+                storm_control: true
+                rstp: true
+                stp_guard: bpdu guard
+              - port_id_ranges:
+                - from: 7
+                  to: 21
+                name: unused
+                enabled: false
+                type: access
+                tags:
+                  - access
+                vlan: 999
+                voice_vlan: 1
+                link_negotiation: Auto negotiate
+                storm_control: true
+                rstp: true
+                stp_guard: bpdu guard
+              - port_id_ranges:
+                - from: 23
+                  to: 23
+                name: Uplink
+                enabled: true
+                type: trunk
+                tags:
+                  - uplink
+                  - trunk
+                vlan: 1
+                allowed_vlans: 1,103,900-901,965-968
+                link_negotiation: Auto negotiate
+                udld: Alert only
+                storm_control: true
+                peer_sgt_capable: true
+                rstp: true
+          - name: ${access_switch_03_name}
+            serial: ${access_switch_03_serial}
+            tags:
+              - C9300-24
+              - leaf102
+            lat: ${lat}
+            lng: ${lng}
+            address: ${address}
+            notes: cloud fabric leaf
+            switch:
+              ports:
+              - port_id_ranges:
+                - from: 1
+                  to: 6
+                name: Access Port
+                enabled: true
+                type: access
+                tags:
+                  - access
+                vlan: 1023
+                voice_vlan: 1022
+                link_negotiation: Auto negotiate
+                storm_control: true
+                rstp: true
+                stp_guard: bpdu guard
+              - port_id_ranges:
+                - from: 7
+                  to: 21
+                name: unused
+                enabled: false
+                type: access
+                tags:
+                  - access
+                vlan: 999
+                voice_vlan: 1
+                link_negotiation: Auto negotiate
+                storm_control: true
+                peer_sgt_capable: true
+                rstp: true
+                stp_guard: bpdu guard
+              - port_id_ranges:
+                - from: 22
+                  to: 22
+                name: Uplink
+                enabled: true
+                type: trunk
+                tags:
+                  - uplink
+                  - trunk
+                vlan: 1
+                allowed_vlans: 1,103,900-901,965-968
+                link_negotiation: Auto negotiate
+                udld: Alert only
+                storm_control: true
+                peer_sgt_capable: true
+                rstp: true
+              - port_id_ranges:
+                - from: 23
+                  to: 24
+                name: unused
+                enabled: false
+                type: trunk
+                tags:
+                  - uplink
+                  - trunk
+                vlan: 1
+                allowed_vlans: 1
+                link_negotiation: Auto negotiate
+                udld: Alert only
+                storm_control: true
+                peer_sgt_capable: true
+                rstp: true
+          # First access point configuration
+          #
+          # Defines the name, serial number, geolocation coordinates
+          # (latitude & longitude), and address variables for the
+          # first access point within the site to which the template
+          # is applied.
+          #   
+          - name: ${ap_01_name}
+            serial: ${ap_01_serial}
+            tags:
+              - CW9176I
+            lat: ${lat}
+            lng: ${lng}
+            address: ${address}
+            notes: cf wireless
+          #
+          # The below code does the following:
+          #
+          # Second access point configuration
+          #
+          # Defines the name, serial number, geolocation coordinates
+          # (latitude & longitude), and address variables for the
+          # second access point within the site to which the template
+          # is applied.
+          #            
+          - name: ${ap_02_name}
+            serial: ${ap_02_serial}
+            tags:
+              - CW9176I
+            lat: ${lat}
+            lng: ${lng}
+            address: ${address}
+            notes: cf wireless
+
        #
        # The below code does the following:
        #
@@ -63,13 +330,13 @@ meraki:
        # and configures parameters specific to those devices
        # within the site / network to which the template is applied.
        #
-       # Note that this repository uses the words appliance, security appliance, 
+       # Note     this repository uses the words applianc     urity appliance, 
        # and secure router to all refer to the MX security appliance.
        #
        - name: small_branch_inventory
          devices:
           #
-          # The below code does the following:
+          # The b     ode does the following:
           #
           # Secure router (Appliance) configuration
           #
@@ -81,11 +348,11 @@ meraki:
           - name: ${appliance_01_name}
             serial: ${appliance_01_serial}
             tags:
-              - test
+              - mx85
             lat: ${lat}
             lng: ${lng}
             address: ${address}
-            notes: Small Branch Notes Appliance
+            notes: meraki auto-vpn hub
           #
           # The below code does the following:
           #
@@ -110,85 +377,114 @@ meraki:
           # Note, you may need to change the port_id_ranges depending 
           # upon which switch models you choose to deploy within your branch.
           #
-          - name: ${access_switch_01_name}
-            serial: ${access_switch_01_serial}
-            tags:
-              - test
-            lat: ${lat}
-            lng: ${lng}
-            address: ${address}
-            notes: Small Branch Notes Switch
-            switch:
-              ports:
-              - port_id_ranges:
-                - from: 1
-                  to: 13
-                name: Uplink Trunk Port
-                enabled: true
-                type: trunk
-                tags:
-                  - uplink
-                  - trunk
-                vlan: 1
-                allowed_vlans: 1,10,20,30,50,999
-                link_negotiation: Auto negotiate
-                udld: Alert only
-                storm_control: true
-                rstp: true
-              - port_id_ranges:
-                - from: 14
-                  to: 24  
-                name: Access Port
-                enabled: true
-                type: access
-                tags:
-                  - access
-                vlan: 10
-                voice_vlan: 20
-                link_negotiation: Auto negotiate
-                storm_control: true
-                rstp: true
-                stp_guard: bpdu guard
-          - name: ${access_switch_02_name}
-            serial: ${access_switch_02_serial}
-            tags:
-              - test
-            lat: ${lat}
-            lng: ${lng}
-            address: ${address}
-            notes: Small Branch Notes Switch
-            switch:
-              ports:
-              - port_id_ranges:
-                - from: 1
-                  to: 13
-                name: Uplink Trunk Port
-                enabled: true
-                type: trunk
-                tags:
-                  - uplink
-                  - trunk
-                vlan: 1
-                allowed_vlans: 1,10,20,30,50,999
-                link_negotiation: Auto negotiate
-                udld: Alert only
-                storm_control: true
-                rstp: true
-              - port_id_ranges:
-                - from: 14
-                  to: 24  
-                name: Access Port
-                enabled: true
-                type: access
-                tags:
-                  - access
-                vlan: 10
-                voice_vlan: 20
-                link_negotiation: Auto negotiate
-                storm_control: true
-                rstp: true
-                stp_guard: bpdu guard      
-          # 
+          # name: ${access_switch_01_name}
+          # serial: ${access_switch_01_serial}
+          # tags:
+          #   - C9300-24
+          # lat: ${lat}
+          # lng: ${lng}
+          # address: ${address}
+          # notes: Small Branch Notes Switch
+          # switch:
+          #   ports:
+          #   - port_id_ranges:
+          #     - from: 1
+          #       to: 20
+          #     name: Access Port
+          #     enabled: true
+          #     type: access
+          #     tags:
+          #       - access
+          #     vlan: 10
+          #     voice_vlan: 1022
+          #     link_negotiation: Auto negotiate
+          #     storm_control: true
+          #     rstp: true
+          #     stp_guard: bpdu guard
+          #   - port_id_ranges:
+          #     - from: 21
+          #       to: 22
+          #     name: AP
+          #     enabled: true
+          #     type: trunk
+          #     tags:
+          #       - ap
+          #       - trunk
+          #     vlan: 103
+          #     allowed_vlans: 1,10,20,30,50,103
+          #     link_negotiation: Auto negotiate
+          #     udld: Alert only
+          #     storm_control: true
+          #     rstp: true
+          #   - port_id_ranges:
+          #     - from: 23
+          #       to: 24
+          #     name: Uplink
+          #     enabled: true
+          #     type: trunk
+          #     tags:
+          #       - uplink
+          #       - trunk
+          #     vlan: 1
+          #     allowed_vlans: 1,10,20,30,50,103
+          #     link_negotiation: Auto negotiate
+          #     udld: Alert only
+          #     storm_control: true
+          #     rstp: true
+          # name: ${access_switch_02_name}
+          # serial: ${access_switch_02_serial}
+          # tags:
+          #   - C9300-24
+          # lat: ${lat}
+          # lng: ${lng}
+          # address: ${address}
+          # notes: Small Branch Notes Switch
+          # switch:
+          #   ports:
+          #   - port_id_ranges:
+          #     - from: 1
+          #       to: 20
+          #     name: Access Port
+          #     enabled: true
+          #     type: access
+          #     tags:
+          #       - access
+          #     vlan: 10
+          #     voice_vlan: 1022
+          #     link_negotiation: Auto negotiate
+          #     storm_control: true
+          #     rstp: true
+          #     stp_guard: bpdu guard
+          #   - port_id_ranges:
+          #     - from: 21
+          #       to: 22
+          #     name: AP
+          #     enabled: true
+          #     type: trunk
+          #     tags:
+          #       - ap
+          #       - trunk
+          #     vlan: 103
+          #     allowed_vlans: 1,10,20,30,50,103
+          #     link_negotiation: Auto negotiate
+          #     udld: Alert only
+          #     storm_control: true
+          #     rstp: true
+          #   - port_id_ranges:
+          #     - from: 23
+          #       to: 24
+          #     name: Uplink
+          #     enabled: true
+          #     type: trunk
+          #     tags:
+          #       - uplink
+          #       - trunk
+          #     vlan: 1
+          #     allowed_vlans: 1,10,20,30,50,103
+          #     link_negotiation: Auto negotiate
+          #     udld: Alert only
+          #     storm_control: true
+          #     rstp: true
           # The below code does the following:
           #
           # First access point configuration
@@ -198,14 +494,14 @@ meraki:
           # first access point within the site to which the template
           # is applied.
           #   
-          - name: ${ap_01_name}
-            serial: ${ap_01_serial}
-            tags:
-              - test
-            lat: ${lat}
-            lng: ${lng}
-            address: ${address}
-            notes: Small Branch Notes Access Point
+          # - name: ${ap_01_name}
+          #   serial: ${ap_01_serial}
+          #   tags:
+          #     - CW9176I
+          #   lat: ${lat}
+          #   lng: ${lng}
+          #   address: ${address}
+          #   notes: Small Branch Notes Access Point
           #
           # The below code does the following:
           #
@@ -216,11 +512,11 @@ meraki:
           # second access point within the site to which the template
           # is applied.
           #            
-          - name: ${ap_02_name}
-            serial: ${ap_02_serial}
-            tags:
-              - test
-            lat: ${lat}
-            lng: ${lng}
-            address: ${address}
-            notes: Small Branch Notes Appliance
+          # - name: ${ap_02_name}
+          #   serial: ${ap_02_serial}
+          #   tags:
+          #     - CW9176I
+          #   lat: ${lat}
+          #   lng: ${lng}
+          #   address: ${address}
+          #   notes: Small Branch Notes Appliance

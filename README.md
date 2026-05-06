@@ -1,7 +1,7 @@
 # 🌐 Network as Code for Unified Branch – Branch as Code (`nac-branch`)
 
 This repository delivers the **Network as Code for Unified Branch – Branch as Code** capability (Release 1, November 2025).  
-It automates provisioning of cloud-managed branch infrastructure — security appliances, switches, and Wi-Fi access points — using repeatable, version-controlled Terraform artifacts instead of manual dashboard configuration.
+It automates provisioning of cloud-managed branch infrastructure — security appliances,      es, and Wi-Fi access points — using repeatable, version-controlled Terraform artifacts instead of manual dashboard configuration.
 
 All artifacts are aligned with **Cisco Validated Designs (CVDs)** and optimized for **greenfield deployments** (new branch networks configured as VPN spokes).  
 The provided code supports importing pre-configured organizations and hubs.

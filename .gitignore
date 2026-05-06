@@ -1,0 +1,64 @@
+# =====================================================================
+# Secrets — NEVER commit these
+# =====================================================================
+set_env_vars*.sh
+*.auto.tfvars
+*.auto.tfvars.json
+secrets.tfvars
+*.pem
+*.key
+
+# =====================================================================
+# Terraform state and runtime
+# State files contain rendered secrets (API keys, sensitive attributes)
+# and reflect a single workstation's view — they should live in remote
+# state (Terraform Cloud, S3+DynamoDB, etc.), not git.
+# =====================================================================
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+.terraform/
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Lock file IS committed (pins provider versions for reproducibility
+# across both your computers) — explicitly NOT ignored:
+!.terraform.lock.hcl
+
+# =====================================================================
+# Module/runtime caches from this project
+# =====================================================================
+cache.json
+cache.json.lock
+meraki_api_throttle.lock
+.pabotsuitenames
+
+# =====================================================================
+# Test output (regenerated on every run)
+# =====================================================================
+tests/results/
+
+# =====================================================================
+# Python build artifacts
+# =====================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+
+# =====================================================================
+# OS / Editor cruft
+# =====================================================================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

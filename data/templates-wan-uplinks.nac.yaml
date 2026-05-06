@@ -43,6 +43,30 @@ meraki:
                       assignment_mode: "dynamic"
                     ipv6:
                       assignment_mode: "dynamic"
+      - name: wan_dhcp_dhcp2
+        devices:
+          - serial: ${appliance_01_serial}
+            name: ${appliance_01_name}
+            appliance:
+              uplinks_settings:
+                wan1:
+                  enabled: ${wan1_enabled}
+                  vlan_tagging:
+                    enabled: false
+                  svis:
+                    ipv4:
+                      assignment_mode: "dynamic"
+                    ipv6:
+                      assignment_mode: "dynamic"
+                wan2:
+                  enabled: ${wan2_enabled}
+                  vlan_tagging:
+                    enabled: false
+                  svis:
+                    ipv4:
+                      assignment_mode: "dynamic"
+                    ipv6:
+                      assignment_mode: "dynamic"
 
       # ---------------------------------------------------------------------
       # TEMPLATE 2: WAN1 Static IPv4/IPv6, WAN2 DHCP
@@ -718,7 +742,7 @@ meraki:
 #    - Configure via local status page if needed
 #
 # 5. VLAN TAGGING:
-#    - Coordinate with upstream switch/router config
+#    - Coordinate with upstream      /router config
 #    - Document VLAN assignments
 #    - Use different VLANs for WAN separation
 #    - Test VLAN configuration with packet captures

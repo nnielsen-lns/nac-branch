@@ -42,7 +42,7 @@ meraki:
       # Security appliance AutoVPN configuration template for the hub network.
       #
       # Configures the network to which the template is applied as a hub and advertises the
-      # VLAN 10 (Data), VLAN 20 (Voice), VLAN 30 (Iot), and VLAN 999 (Infra) subnets across
+      # VLAN 10 (Data), VLAN 20 (Voice), VLAN 30 (Iot), and VLAN 103 (Infra) subnets across
       # the VPN to the cloud. IP address and subnets for VLANs are specified as variables
       # which are defined in the pods_variables.nac.yaml file. 
       #
@@ -53,14 +53,18 @@ meraki:
                 vpn_site_to_site_vpn:
                   mode: hub
                   subnets:
-                    - local_subnet: ${vlan10_subnet}
-                      use_vpn: true
-                    - local_subnet: ${vlan20_subnet}
-                      use_vpn: true
-                    - local_subnet: ${vlan30_subnet}
-                      use_vpn: true
-                    - local_subnet: ${vlan999_subnet}
-                      use_vpn: true
+                    - local_subnet: ${vlan410_subnet}
+                      use_vpn: false
+                    - local_subnet: ${vlan430_subnet}
+                      use_vpn: false
+                    - local_subnet: ${vlan440_subnet}
+                      use_vpn: false
+                    - local_subnet: ${vlan420_subnet}
+                      use_vpn: false
+                    # - local_subnet: ${vlan30_subnet}
+                    #   use_vpn: true
+                    # - local_subnet: ${vlan103_subnet}
+                    #   use_vpn: false
       #
       # The below code does the following:
       #
@@ -70,7 +74,7 @@ meraki:
       # a single hub.  The name of the hub, which is specified as a variable, is also
       # the default route for all spoke networks.
       #
-      # Advertises the VLAN 10 (data), VLAN 20 (voice), VLAN 30 (iot), and VLAN 999
+      # Advertises the VLAN 10 (data), VLAN 20 (voice), VLAN 30 (iot), and VLAN 103
       # (infra) subnets across the VPN to the cloud. VLAN 50 (Guest) is not advertised
       # across the VPN.  The default VLAN (VLAN 1) is automatically configured by the 
       # MX and does not appear within the YAML below.
@@ -83,24 +87,24 @@ meraki:
                 vpn_site_to_site_vpn:
                   mode: spoke
                   hubs:
-                    - hub_network_name: ${hub_network_name}
+                    - hub_network_name: gsa-demo-dc1-nate
                       use_default_route: true
                   subnets:
-                    - local_subnet: ${vlan10_subnet}
-                      use_vpn: true
-                    - local_subnet: ${vlan20_subnet}
-                      use_vpn: true
-                    - local_subnet: ${vlan30_subnet}
-                      use_vpn: true
-                    - local_subnet: ${vlan50_subnet}
+                    - local_subnet: ${vlan410_subnet}
                       use_vpn: false
-                    - local_subnet: ${vlan999_subnet}
-                      use_vpn: true
+                    - local_subnet: ${vlan430_subnet}
+                      use_vpn: false
+                    - local_subnet: ${vlan440_subnet}
+                      use_vpn: false
+                    - local_subnet: ${vlan420_subnet}
+                      use_vpn: false
+                    # - local_subnet: ${vlan30_subnet}
+                    #   use_vpn: true
       #
       # The below code does the following:
       #
       # Security appliance LAN port configuration template.
-      # Configures and enables LAN ports 5, 6, 13, & 14 as trunks to the branch switch.  
+      # Configures and enables LAN ports 5, 6, 13, & 14 as trunks to the branc     ch.  
       # These ports are specific to the MX85 secure router.  For MX95/105 secure routers
       # the SFP LAN ports are ports 9 & 10.  If you are using an MX67 with two WAN ports,
       # the LAN port range is ports 3 - 5.  If you are using an MX68 the LAN port range
@@ -108,10 +112,10 @@ meraki:
       # router model you are deploying, you will need to change the port_id_ranges you wish
       # to enable and configure as trunks.
       #
-      # Allows VLANs 1, 10, 20, 30, 50, and 999. Native VLAN 1 on the trunk serves to allow
+      # Allows VLANs 1, 10, 20, 30, 50, and 103. Native VLAN 1 on the trunk serves to allow
       # devices downstream of the security appliance to initially get IP addresses and
       # communicate with the Cisco (formerly Meraki) cloud. Upon receiving their configurations,
-      # devices downstream of the secure router are configured with VLAN 999 (infra) as their 
+      # devices downstream of the secure router are configured with VLAN 103 (infra) as their 
       # manangement VLAN.  VLANs 10, 20, 30, and 50 correspond to Data, Voice, IoT, and Guest VLANs.
       #
       - name: app_ports
@@ -119,12 +123,10 @@ meraki:
           ports:
             - port_id_ranges:
                           - from: 5
-                            to: 6
-                          - from: 13
                             to: 14
               enabled: true
               type: trunk
-              allowed_vlans: "1,10,20,30,50,999"
+              allowed_vlans: "all"
               vlan: 1
       #
       # The below code does the following:
@@ -132,7 +134,7 @@ meraki:
       # Security appliance VLAN configuration template.
       #
       # This template hardcodes the configuration for 5 VLANs - VLAN 10 (Data)
-      # VLAN 20 (Voice), VLAN 30 (IoT), VLAN 50 (Guest), and VLAN 999 (infra).
+      # VLAN 20 (Voice), VLAN 30 (IoT), VLAN 50 (Guest), and VLAN 103 (infra).
       # For each VLAN, the IPv4 subnet and address of the security appliance 
       # are defined as variables.  The VLAN names are hardcoded.
       # IPv6 is disabled for each VLAN. 
@@ -141,7 +143,7 @@ meraki:
       # relaying DHCP back to centralized corporate DHCP servers, configured as 
       # variables.  
       #
-      # For VLANs 30 (Guest), and 999 (Infra), a separate DHCP server instance is
+      # For VLANs 30 (Guest), and 103 (Infra), a separate DHCP server instance is
       # configured within each VLAN to assign IP addresses to client devices for the VLAN, 
       # with the following example configuration:
       #
@@ -149,74 +151,119 @@ meraki:
       # - DNS server specified as openDNS
       # - No DHCP boot options specified
       # - DHCP lease time of 1 day
-      # - Fixed IP address assignments for VLAN 999 (Infra) corresponding to the
-      #   management interfaces of the switch and AP. This is to ensure these 
+      # - Fixed IP address assignments for VLAN 103 (Infra) corresponding to the
+      #   management interfaces of th     ch and AP. This is to ensure these 
       #   devices have a consistent IP address for sourcing syslog, NetFlow, snmp, etc.
       #      
       - name: app_vlans
         appliance:
           vlans:
-            - vlan_id: 10
-              name: "Data"
-              subnet: ${vlan10_subnet}
-              appliance_ip: ${vlan10_appliance_ip}
+            - vlan_id: 103
+              name: "MGMT"
+              subnet: ${vlan103_subnet}
+              appliance_ip: ${vlan103_appliance_ip}
               ipv6:
                 enabled: false
               dhcp_handling: "Run a DHCP server"
-              # dhcp_handling: "Relay DHCP to another server"
-              # dhcp_relay_server_ips:
-              #   - ${corp_dhcp_server1}
-              #   - ${corp_dhcp_server2}
               mandatory_dhcp: false
-            - vlan_id: 20
-              name: "Voice"
-              subnet: ${vlan20_subnet}
-              appliance_ip: ${vlan20_appliance_ip}
+            - vlan_id: 410
+              name: "underlay"
+              vrf_name: grt_10
+              subnet: ${vlan410_subnet}
+              appliance_ip: ${vlan410_appliance_ip}
               ipv6:
                 enabled: false
               dhcp_handling: "Run a DHCP server"
-              # dhcp_handling: "Relay DHCP to another server"
-              # dhcp_relay_server_ips:
-              #   - ${corp_dhcp_server1}
-              #   - ${corp_dhcp_server2}
               mandatory_dhcp: false
-            - vlan_id: 30
-              name: "Iot"
-              subnet: ${vlan30_subnet}
-              appliance_ip: ${vlan30_appliance_ip}
+            - vlan_id: 430
+              name: "eBGP_iot"
+              vrf_name: iot_30
+              subnet: ${vlan430_subnet}
+              appliance_ip: ${vlan430_appliance_ip}
               ipv6:
                 enabled: false
-              dhcp_handling: "Run a DHCP server"
-              # dhcp_handling: "Relay DHCP to another server"
-              # dhcp_relay_server_ips:
-              #   - ${corp_dhcp_server1}
-              #   - ${corp_dhcp_server2}
+              dhcp_handling: "Do not respond to DHCP requests"
               mandatory_dhcp: false
-            - vlan_id: 50
-              name: "Guest"
-              subnet: ${vlan50_subnet}
-              appliance_ip: ${vlan50_appliance_ip}
+            - vlan_id: 440
+              name: "eBGP_guest"
+              vrf_name: guest_40
+              subnet: ${vlan440_subnet}
+              appliance_ip: ${vlan440_appliance_ip}
               ipv6:
                 enabled: false
-              dns_nameservers: opendns
-              dhcp_handling: "Run a DHCP server"
-              dhcp_lease_time: "1 day"
-              dhcp_boot_options: false
-              mandatory_dhcp: true
-            - vlan_id: 999
-              name: "Infra"
-              subnet: ${vlan999_subnet}
-              appliance_ip: ${vlan999_appliance_ip}
-              ipv6:
-                enabled: false
-              dns_nameservers: opendns
-              dhcp_handling: "Run a DHCP server"
-              dhcp_lease_time: "1 day"
-              dhcp_boot_options: false
+              dhcp_handling: "Do not respond to DHCP requests"
               mandatory_dhcp: false
-              # fixed_ip_assignments:
-              #  ip: 10.250.1.11
-              #  name: 6c:c3:b2:7e:ae:0a
+            - vlan_id: 420
+              name: "eBGP_corp"
+              vrf_name: corp_20
+              subnet: ${vlan420_subnet}
+              appliance_ip: ${vlan420_appliance_ip}
+              ipv6:
+                enabled: false
+              dhcp_handling: "Do not respond to DHCP requests"
+              mandatory_dhcp: false
+
+            #- vlan_id: 1021
+            #  name: "grt_underlay"
+            #  subnet: ${vlan1021_subnet}
+            #  appliance_ip: ${vlan1021_appliance_ip}
+            #  ipv6:
+            #    enabled: false
+            #  dhcp_handling: "Run a DHCP server"
+            #   dhcp_handling: "Relay DHCP to another server"
+            #   dhcp_relay_server_ips:
+            #     - ${corp_dhcp_server1}
+            ## Likely going to be distributed anycast gateways within the fabric
+            # - vlan_id: 1022
+            #   name: "corp-voice"
+            #   subnet: ${vlan1022_subnet}
+            #   appliance_ip: ${vlan1022_appliance_ip}
+            #   ipv6:
+            #     enabled: false
+            #   # dhcp_handling: "Run a DHCP server"
+            #   dhcp_handling: "Relay DHCP to another server"
+            #   dhcp_relay_server_ips:
+            #     - ${corp_dhcp_server1}
+            #   #   - ${corp_dhcp_server2}
+            #   mandatory_dhcp: false
+            # - vlan_id: 1023
+            #   name: "corp-data"
+            #   subnet: ${vlan1023_subnet}
+            #   appliance_ip: ${vlan1023_appliance_ip}
+            #   ipv6:
+            #     enabled: false
+            #   dhcp_handling: "Run a DHCP server"
+            #   # dhcp_handling: "Relay DHCP to another server"
+            #   # dhcp_relay_server_ips:
+            #   #   - ${corp_dhcp_server1}
+            #   #   - ${corp_dhcp_server2}
+            #   mandatory_dhcp: false
+            # - vlan_id: 50
+            #   name: "Guest"
+            #   subnet: ${vlan50_subnet}
+            #   appliance_ip: ${vlan50_appliance_ip}
+            #   ipv6:
+            #     enabled: false
+            #   dns_nameservers: opendns
+            #   dhcp_handling: "Run a DHCP server"
+            #   dhcp_lease_time: "1 day"
+            #   dhcp_boot_options: false
+            #   mandatory_dhcp: true
+            # - vlan_id: 103
+            #   name: "Infra"
+            #   subnet: ${vlan103_subnet}
+            #   appliance_ip: ${vlan103_appliance_ip}
+            #   ipv6:
+            #     enabled: false
+            #   dns_nameservers: opendns
+            #   dhcp_handling: "Run a DHCP server"
+            #   #dhcp_handling: "Relay DHCP to another server"
+            #   #dhcp_relay_server_ips:
+            #   #  - ${corp_dhcp_server1}
+            #   mandatory_dhcp: false
+            #   # fixed_ip_assignments:
+            #   #  ip: 10.250.1.11
+            #   #  name: 6c:c3:b2:7e:ae:0a
       #
       # The below code does the following:
       #
@@ -390,10 +437,10 @@ meraki:
       #
       # Security appliance static routing configuration template.
       #
-      # Static routes are used to reach subnets that are behind a layer 3 switch
+      # Static routes are used to reach subnets that are behind a layer     tch
       # or otherwise not directly connected to or configured on the WAN appliance.
-      # For this release it is assumed the switch attached to the secure router
-      # (security appliance) is a L2 switch.  Hence there should be no static
+      # For this release it is assumed t     tch attached to the secure router
+      # (security appliance) is a      tch.  Hence there should be no static
       # routes to be defined.  This section is therefore purely for example.
       #
       # This template demonstrates how to configure two static routes in which
@@ -408,3 +455,38 @@ meraki:
             - name: Static Route 02
               subnet: ${static_route2_subnet}
               gateway_ip: ${static_route2_gw}
+      - name: app_bgp
+        appliance:
+          vpn_bgp:
+            enabled: true
+            as_number: ${mx_bgp_asn}
+            ibgp_hold_timer: 240
+            neighbors:
+              - ip: ${underlay_peer_ip}
+                remote_as_number: ${border_bgp_asn}
+                source_interface: "vlan410"
+                receive_limit: 0
+                allow_transit: true
+                ebgp_hold_timer: 30
+                ebgp_multihop: 1
+              - ip: ${iot_peer_ip}
+                remote_as_number: ${border_bgp_asn}
+                source_interface: "vlan430"
+                receive_limit: 0
+                allow_transit: true
+                ebgp_hold_timer: 30
+                ebgp_multihop: 1
+              - ip: ${guest_peer_ip}
+                remote_as_number: ${border_bgp_asn}
+                source_interface: "vlan440"
+                receive_limit: 0
+                allow_transit: true
+                ebgp_hold_timer: 30
+                ebgp_multihop: 1
+              - ip: ${corp_peer_ip}
+                remote_as_number: ${border_bgp_asn}
+                source_interface: "vlan420"
+                receive_limit: 0
+                allow_transit: true
+                ebgp_hold_timer: 30
+                ebgp_multihop: 1

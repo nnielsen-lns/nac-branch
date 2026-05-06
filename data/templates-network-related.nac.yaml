@@ -14,7 +14,7 @@ meraki:
       # for site creation, such as timezones and descriptions.
       # 
       # This template establishes the base network configuration by:
-      # - Enabling specific Meraki product types (appliance, switch, wireless, cellularGateway)
+      # - Enabling specific Meraki product types (appliance,      , wireless, cellularGateway)
       # - Setting location-specific time zone for accurate logging and scheduling
       # - Adding operational notes for site-specific requirements or constraints
       # - Applying metadata tags for categorization, reporting, and search operations
@@ -107,10 +107,10 @@ meraki:
         group_policies:
           - name: ${data_vlan_group_policy}
             vlan_tagging:
-              vlan_id: 10
+              vlan_id: 1023
           - name: ${voice_vlan_group_policy}
             vlan_tagging:
-              vlan_id: 20
+              vlan_id: 1022
           - name: ${iot_vlan_group_policy}
             vlan_tagging:
-              vlan_id: 30
+              vlan_id: 1025
