@@ -219,6 +219,24 @@ nac-test -d workspaces/merged_configuration.nac.yaml -t ./tests/templates -o ./t
 Passing `nac-test` confirms configuration integrity and reproducibility.  
 👉 Learn more about [Configuration Testing.](https://netascode.cisco.com/docs/guides/concepts/testing/)
 
+## ⚡ Firmware Management
+
+The NAC module YAML data model (v0.5.0) does not support firmware upgrade configuration, so `main.tf` manages it directly for the `gsa-cloud-fabric` network.
+
+After the NAC module creates the network, a `terraform_data` resource pins the Catalyst switches to `cs-iosxe-17-18-3` via a direct `curl` call to the Meraki API. The `ciscodevnet/meraki` Terraform provider sends `nextUpgrade.toVersion.id` as a string, but the Meraki API requires an integer — using `curl` directly bypasses this type mismatch.
+
+A 4xx response (already on the target version) is treated as success.
+
+### Firmware version ID (org-specific)
+
+| Product | Version | Firmware name | Release type | ID |
+|---------|---------|--------------|-------------|-----|
+| Catalyst Switch | 17.18.3 | `cs-iosxe-17-18-3` | candidate | 15052 |
+
+Verify with: `GET /networks/{networkId}/firmwareUpgrades`
+
+---
+
 ## 💬 Issues & Feedback
 
 We welcome your feedback!  

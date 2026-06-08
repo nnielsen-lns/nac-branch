@@ -260,6 +260,7 @@ meraki:
                 syslog_port: 514
                 # netflow_server: 4.5.6.7
                 # netflow_port: 2055
+                participate_in_next_beta_release: true
                 appliance_01_name: gsa-cf-r1
                 access_switch_01_name: gsa-cf-border1
                 access_switch_02_name: gsa-cf-leaf101

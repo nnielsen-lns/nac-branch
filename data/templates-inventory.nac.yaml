@@ -88,7 +88,8 @@ meraki:
                   link_negotiation: Auto negotiate
                   udld: Alert only
                   storm_control: true
-                  peer_sgt_capable: true
+                  #  peer_sgt_capable: true
+                  #  adaptive_policy_group: "Infrastructure"
                   rstp: true
                 - port_id_ranges:
                     - from: 23
@@ -104,7 +105,8 @@ meraki:
                   link_negotiation: Auto negotiate
                   udld: Alert only
                   storm_control: true
-                  peer_sgt_capable: true
+                  #  peer_sgt_capable: true
+                  #  adaptive_policy_group: "Infrastructure"
                   rstp: true
                 - port_id_ranges:
                     - from: 24
@@ -121,7 +123,8 @@ meraki:
                   udld: Alert only
                   storm_control: true
                   rstp: true
-                  peer_sgt_capable: true
+                  #  peer_sgt_capable: true
+                  #  adaptive_policy_group: "Infrastructure"
 
 #         - name: ${access_switch_01_name}
 #           serial: ${access_switch_01_serial}
@@ -212,7 +215,8 @@ meraki:
                 link_negotiation: Auto negotiate
                 udld: Alert only
                 storm_control: true
-                peer_sgt_capable: true
+                #  peer_sgt_capable: true
+                #  adaptive_policy_group: "Infrastructure"
                 rstp: true
           - name: ${access_switch_03_name}
             serial: ${access_switch_03_serial}
@@ -251,7 +255,8 @@ meraki:
                 voice_vlan: 1
                 link_negotiation: Auto negotiate
                 storm_control: true
-                peer_sgt_capable: true
+                #  peer_sgt_capable: true
+                #  adaptive_policy_group: "Infrastructure"
                 rstp: true
                 stp_guard: bpdu guard
               - port_id_ranges:
@@ -268,7 +273,8 @@ meraki:
                 link_negotiation: Auto negotiate
                 udld: Alert only
                 storm_control: true
-                peer_sgt_capable: true
+                #  peer_sgt_capable: true
+                #  adaptive_policy_group: "Infrastructure"
                 rstp: true
               - port_id_ranges:
                 - from: 23
@@ -284,7 +290,8 @@ meraki:
                 link_negotiation: Auto negotiate
                 udld: Alert only
                 storm_control: true
-                peer_sgt_capable: true
+                #  peer_sgt_capable: true
+                #  adaptive_policy_group: "Infrastructure"
                 rstp: true
           # First access point configuration
           #

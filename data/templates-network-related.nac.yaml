@@ -30,6 +30,25 @@ meraki:
         notes: ${network_notes}
         tags:
           - small_branch
+        firmware_upgrades:
+          upgrade_window:
+            day_of_week: Sun
+            hour_of_day: "4:00"
+          products:
+            appliance:
+              participate_in_next_beta_release: true
+              next_upgrade:
+                to_version:
+                  short_name: "MX 26.1.4"
+            switch_catalyst:
+              participate_in_next_beta_release: true
+              next_upgrade:
+                to_version:
+                  short_name: "IOS XE 26.1.1"
+            wireless:
+              participate_in_next_beta_release: true
+            cellular_gateway:
+              participate_in_next_beta_release: true
       #
       # The below code does the following:
       # 

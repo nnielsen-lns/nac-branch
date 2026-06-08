@@ -63,3 +63,4 @@ Thumbs.db
 *.swo
 *~
 workspaces/merged_configuration.nac.yaml
+.claude/
